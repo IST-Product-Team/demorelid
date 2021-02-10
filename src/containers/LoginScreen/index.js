@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { Col, Row, Input, Checkbox, Button } from "antd";
 
-import LoginBanner from "../../assets/images/banner.svg"
+import LoginBanner from "../../assets/images/LoginBanner.png"
 
 import "./LoginScreen.css"
 
