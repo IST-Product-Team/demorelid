@@ -1,0 +1,113 @@
+{
+  "name": "daily-grow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "React Boilerplate",
+  "author": "IST",
+  "license": "IST",
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "^4.9.6",
+    "@rematch/core": "^1.2.0",
+    "antd": "^4.1.0",
+    "axios": "^0.19.2",
+    "connected-react-router": "^6.5.2",
+    "crypto-js": "^3.1.9-1",
+    "formik": "^2.0.6",
+    "history": "^4.10.1",
+    "i18next": "^17.0.13",
+    "i18next-browser-languagedetector": "^3.0.3",
+    "i18next-xhr-backend": "^3.2.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "lodash": "^4.17.20",
+    "moment": "^2.26.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
+    "react-app-rewired": "^2.1.5",
+    "react-dom": "^16.13.1",
+    "react-i18next": "^10.13.1",
+    "react-number-format": "^4.4.1",
+    "react-perfect-scrollbar": "^1.5.3",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "secure-web-storage": "^1.0.2",
+    "yup": "^0.27.0"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "jest",
+    "eject": "react-app-rewired eject",
+    "lint": "eslint ./src/components/**/**.js ./src/containers/**/**.js ./src/helpers/**/**.js ./src/services/**/**.js",
+    "lint:fix": "eslint ./src/components/**/**.js ./src/containers/**/**.js ./src/helpers/**/**.js ./src/services/**/**.js --fix",
+    "test:watch": "yarn run test --watch",
+    "test:cover": "yarn run test --coverage"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "ie >= 9"
+    ],
+    "development": [
+      "ie 11",
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-import": "^1.13.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "customize-cra": "^1.0.0-alpha.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-babel": "  ^5.3.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.2.5",
+    "img-loader": "^3.0.1",
+    "jest": "^24.9.0",
+    "jest-dom": "^4.0.0",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
+    "react-testing-library": "^8.0.1",
+    "url-loader": "^4.1.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/config/tests/jest.config"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lint && yarn test",
+      "pre-push": "yarn run lint"
+    }
+  }
+}

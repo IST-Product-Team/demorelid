@@ -1,0 +1,189 @@
+:root {
+  /* Variables for css styling */
+  --primary-medium: #004d6e;
+  --primary-soft: #06719f;
+  --primary-ultrasoft: #0387c0;
+  --secondary-medium: #FF7950;
+  --secondary-soft: #f3ffcf;
+  --gray-medium: #b0bfd3;
+  --gray-soft: #e5edf8;
+  --gray-ultrasoft: #f7faff;
+  --dark: #364449;
+  --white: #ffffff;
+  --blue-medium: #7abfff;
+  --blue-soft: #e9f4ff;
+  --blue-hard: #137ee1;
+  --red-medium: #ff8970;
+  --red-soft: #ffccc1;
+  --red-hard: #cd3311;
+  --yellow-medium: #ffd15c;
+  --yellow-soft: #ffefc7;
+  --yellow-hard: #ed9c00;
+}
+
+@font-face {
+  font-family: 'Overpass';
+  src: url(./assets/fonts/Overpass/Overpass-Regular.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* BARLOW FONT */
+
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Italic.ttf) format('truetype');
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Italic.ttf) format('truetype');
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Italic.ttf) format('truetype');
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-MediumItalic.ttf) format('truetype');
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-MediumItalic.ttf) format('truetype');
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-MediumItalic.ttf) format('truetype');
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Regular.ttf) format('truetype');
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Regular.ttf) format('truetype');
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Regular.ttf) format('truetype');
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Medium.ttf) format('truetype');
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Medium.ttf) format('truetype');
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./assets/fonts/Barlow/Barlow-Medium.ttf) format('truetype');
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Overpass';
+}
+
+::placeholder{
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 26px;
+}
+.content_container {
+  padding: 20px 50px 23px 50px;
+  width: 100%;
+  min-height: 90vh;
+  background: #F4F7FB;
+}
+.ant-input{
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 26px;
+}
+.ant-btn{
+  color: #fff;
+}
+.ant-radio-group{
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  border-left: none;
+}
+.ant-radio-button-wrapper{
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+}
+.ant-radio-group-large .ant-radio-button-wrapper{
+  color : #BCC8E7;
+}
+.ant-radio-button-wrapper:not(:first-child)::before{
+  display:none;
+}
+.ant-radio-button-wrapper:first-child{
+  border: none;
+}
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled){
+  background: linear-gradient(180deg, #FF8E6B -100%, #F75B2B 100%);
+}
+
+/* ANT CARD */
+.ant-card-body{
+  padding: 0px;
+}
