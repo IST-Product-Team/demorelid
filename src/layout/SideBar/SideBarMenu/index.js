@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line no-unused-vars
 import { Menu } from 'antd';
-// eslint-disable-next-line no-unused-vars
 import { makeStyles } from '@material-ui/core/styles';
 
-// eslint-disable-next-line no-unused-vars
+import path from "../../../pathnameCONFIG";
+
 const useStyles = makeStyles((theme) => ({
   icon: {
     position: 'relative',
@@ -13,25 +11,23 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginLeft: '10px',
-    fontFamily: 'NunitoRegular',
+    fontFamily: 'Overpass',
     color: '#fff',
     fontWeight: '600',
   },
 }));
 
-// eslint-disable-next-line no-unused-vars
 const SideBarMenu = (props) => {
   const classes = useStyles();
   const [activeButton, setActiveButton] = React.useState('0');
-  const [logout, setLogout] = useState(false);
 
-  // eslint-disable-next-line consistent-return
   async function activeButtonHighlight() {
     const { pathname } = window.location;
-    // eslint-disable-next-line default-case
     switch (pathname) {
-      case `/`:
+      case path.dashboard:
         return '0';
+      case path.transfer:
+        return '1';
     }
   }
 
@@ -47,7 +43,7 @@ const SideBarMenu = (props) => {
         defaultSelectedKeys={[activeButton]}
         selectedKeys={[activeButton]}
         style={{
-          backgroundColor: '#004D6E',
+          backgroundColor: '#EA5121',
           paddingTop: '10px',
           width: '100%',
         }}
@@ -57,10 +53,19 @@ const SideBarMenu = (props) => {
         <Menu.Item key="0">
           <a
             style={{ cursor: 'pointer' }}
-            href="/"
-            onClick={() => window.location.assign(`/`)}
+            href={path.dashboard}
+            onClick={() => window.location.assign(path.dashboard)}
           >
-            <span className={classes.title}>Home</span>
+            <span className={classes.title}>Dashboard</span>
+          </a>
+        </Menu.Item>
+        <Menu.Item key="1">
+          <a
+            style={{ cursor: 'pointer' }}
+            href={path.transfer}
+            onClick={() => window.location.assign(path.transfer)}
+          >
+            <span className={classes.title}>Transfer</span>
           </a>
         </Menu.Item>
       </Menu>

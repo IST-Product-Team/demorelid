@@ -1,12 +1,12 @@
 import React from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, Router, useLocation } from "react-router-dom";
 import { Layout } from "antd";
 import { I18nextProvider } from 'react-i18next';
 import { ThemeProvider } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 
 import Header from "./Header";
-import Footer from "./Footer";
+import SideBar from "./SideBar";
 
 import pathname from "../pathnameCONFIG";
 
@@ -23,8 +23,20 @@ const Layouts = (props) => {
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <Route exact path={pathname.login} component={LoginScreen} />
-          <Route exact path={pathname.dashboard} component={DashboardScreen} />
+          {
+            location.pathname === '/'
+              ? null
+              : <Header />
+          }
+          <Layout style={{ height: "100%" }}>
+            {
+              location.pathname === '/'
+                ? null
+                : <SideBar />
+            }
+            <Route exact path={pathname.login} component={LoginScreen} />
+            <Route exact path={pathname.dashboard} component={DashboardScreen} />
+          </Layout>
         </Provider >
       </ThemeProvider>
     </I18nextProvider>
