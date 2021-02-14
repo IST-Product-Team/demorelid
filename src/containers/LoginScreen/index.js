@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { Col, Row, Input, Checkbox, Button } from "antd";
+import { Col, Row, Checkbox, Button } from "antd";
 
 import LoginBanner from "../../assets/images/LoginBanner.png";
 import EmailField from "../../components/InputField/EmailField";
@@ -14,43 +14,45 @@ import "./LoginScreen.css";
 const LoginScreen = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [rememberUser, setRememberUser] = useState(false);
+    const [, setRememberUser] = useState(false);
     const [buttonDisable, setButtonDisable] = useState(true);
     const [errorEmail, setErrorEmail] = useState(false);
     const [helperTextEmail, setHelperTextEmail] = useState(null);
 
-    const handleEmailChange = (value) => {
-        validateEmail(value.target.value);
-        setEmail(value.target.value);
-    }
-
-    const validateEmail = value => {
+    const validateEmail = (value) => {
+        // eslint-disable-next-line no-useless-escape
         const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if (!re.test(value) && value.trim().length !== 0) {
             setErrorEmail(true);
-            setHelperTextEmail("The format of this email is incorrect.");
+            setHelperTextEmail('The format of this email is incorrect.');
         } else {
             setErrorEmail(false);
             setHelperTextEmail(null);
         }
-    }
+    };
+    
+    const handleEmailChange = (value) => {
+        validateEmail(value.target.value);
+        setEmail(value.target.value);
+    };
 
     const handlePasswordChange = (value) => {
         setPassword(value.target.value);
-    }
+    };
 
     useEffect(() => {
+        // eslint-disable-next-line no-unused-expressions
         email !== ""
             && errorEmail !== true
             && password !== ""
             ? setButtonDisable(false)
-            : setButtonDisable(true)
+            : setButtonDisable(true);
     }, [email, password]);
 
     return (
         <Row>
             <Col span={12} style={{ height: "100vh" }}>
-                <img src={LoginBanner} className="banner" />
+                <img src={LoginBanner} className="banner" alt="Banner Login" />
             </Col>
             <Col span={12} className="login-layout">
                 <div>
@@ -65,7 +67,7 @@ const LoginScreen = () => {
                             Email
                         </div>
                         <EmailField
-                            id={"email"}
+                            id="email"
                             className="input-field"
                             placeholder="Enter your email"
                             value={email}
@@ -85,7 +87,7 @@ const LoginScreen = () => {
                         <Row style={{ marginTop: "17px" }}>
                             <Col span={12}>
                                 <Checkbox
-                                    onChange={(e) => { setRememberUser(e.target.checked) }}
+                                    onChange={(e) => { setRememberUser(e.target.checked); }}
                                 >
                                     Remember me
                                 </Checkbox>
