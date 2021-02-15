@@ -1,27 +1,19 @@
 import React from 'react';
-import { useFormik } from 'formik';
 import { Layout, Row, Col, Button } from 'antd';
 
-import { initialValues, validationSchema } from '../../helpers/Formik';
-import Container from '../../components/Container';
-import Form from '../../components/Forms';
-import pathname from '../../pathnameCONFIG';
+import Container from "../../components/Container";
+import TwoFactorAuthField from "../../components/InputField/TwoFactorAuthField";
 
 const { Footer } = Layout;
 
-const PaymentScreen = () => {
-    const formik = useFormik({
-        initialValues: initialValues.payment,
-        validationSchema: validationSchema.payment,
-    });
-    React.useEffect(() => {
-        console.log('formik', formik);
-    }, [formik]);
-
+const TwoFactorAuthScreen = () => {
     return (
         <>
-            <Container title="Payment" subtitle="Pay X payment">
-                <Form formCategory="payment" {...formik} />
+            <Container
+                title="Two-Factor Authentification"
+                subtitle="Please enter 6 digits code sent to your phone"
+            >
+                <TwoFactorAuthField />
             </Container>
             <Footer
                 style={{
@@ -52,13 +44,7 @@ const PaymentScreen = () => {
                                 height: 50,
                                 width: 100,
                             }}
-                            onClick={() => {
-                                window.location.assign(pathname.twoFactorAuth);
-                            }}
-                            disabled={
-                                formik.values.amount === '' ||
-                  Object.values(formik.errors).length > 0
-                            }
+                            disabled={false}
                             size="large"
                         >
                 Submit
@@ -70,4 +56,8 @@ const PaymentScreen = () => {
     );
 };
 
-export default PaymentScreen;
+TwoFactorAuthScreen.propTypes = {
+
+};
+
+export default TwoFactorAuthScreen;

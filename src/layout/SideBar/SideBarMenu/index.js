@@ -33,7 +33,7 @@ const SideBarMenu = (props) => {
         case path.payment:
             return '3';
         default:
-            return '0';
+            return '';
         }
     }
 

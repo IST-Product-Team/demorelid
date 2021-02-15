@@ -5,6 +5,7 @@ import { Layout, Row, Col, Button } from "antd";
 import { initialValues, validationSchema } from '../../helpers/Formik';
 import Container from '../../components/Container';
 import Form from "../../components/Forms";
+import pathname from '../../pathnameCONFIG';
 
 const { Footer } = Layout;
 
@@ -50,6 +51,9 @@ const TransferScreen = () => {
                             style={{
                                 height: 50,
                                 width: 100,
+                            }}
+                            onClick={() => {
+                                window.location.assign(pathname.twoFactorAuth);
                             }}
                             disabled={formik.values.amount === '' || Object.values(formik.errors).length > 0}
                             size="large"

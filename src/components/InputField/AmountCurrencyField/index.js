@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input } from 'antd';
-import "./AmountCurrencyField.css";
 import NumberFormat from 'react-number-format';
+import "./AmountCurrencyField.css";
 
 const { useState ,useEffect } = React;
 

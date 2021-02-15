@@ -1,0 +1,13 @@
+.two-factor-auth-input .MuiInput-input {
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.MuiInput-underline:before {
+    border-bottom: 3px solid #BCC8E7 !important;
+}
+
+.MuiInput-underline:after {
+    border-bottom: 3px solid #FF7348 !important;
+}
