@@ -1,0 +1,13 @@
+.two-factor-auth-modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.two-factor-auth-modal-subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gray-medium);
+    padding-bottom: 10px;
+    text-align: center;
+}

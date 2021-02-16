@@ -53,7 +53,7 @@ const TransferScreen = () => {
                                 width: 100,
                             }}
                             onClick={() => {
-                                window.location.assign(pathname.twoFactorAuth);
+                                window.location.assign(pathname.receipt);
                             }}
                             disabled={formik.values.amount === '' || Object.values(formik.errors).length > 0}
                             size="large"

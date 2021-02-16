@@ -15,7 +15,7 @@ import DashboardScreen from '../containers/DashboardScreen';
 import TransferScreen from '../containers/TransferScreen';
 import PurchaseScreen from '../containers/PurchaseScreen';
 import PaymentScreen from '../containers/PaymentScreen';
-import TwoFactorAuthScreen from "../containers/TwoFactorAuthScreen";
+import ReceiptScreen from "../containers/ReceiptScreen";
 
 import i18n from '../helpers/i18n/i18n';
 import theme from '../assets/theme/theme';
@@ -47,7 +47,11 @@ const Layouts = (props) => {
                             component={PurchaseScreen}
                         />
                         <Route exact path={pathname.payment} component={PaymentScreen} />
-                        <Route exact path={pathname.twoFactorAuth} component={TwoFactorAuthScreen} />
+                        <Route
+                            exact
+                            path={pathname.receipt}
+                            component={ReceiptScreen}
+                        />
                     </Layout>
                 </Provider>
             </ThemeProvider>

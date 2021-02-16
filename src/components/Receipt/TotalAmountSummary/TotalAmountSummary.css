@@ -1,0 +1,20 @@
+.invoice-summary-container,
+.invoice-info-container,
+.account-info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.invoice-summary-title,
+.invoice-info-title,
+.account-info-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.invoice-summary-amount,
+.invoice-info-detail,
+.account-info-detail { 
+    font-size: 14px;
+    font-weight: 400;
+}

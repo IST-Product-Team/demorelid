@@ -10,7 +10,7 @@ import BasicLayouts from './layout';
 
 // import Route from "./router";
 
-import "./helpers/Axios/interceptor"
+import "./helpers/Axios/interceptor";
 import './index.css';
 
 ReactDOM.render(<BrowserRouter>

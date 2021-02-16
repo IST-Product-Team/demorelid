@@ -6,6 +6,7 @@ const pathnameCONFIG = {
     purchase: '/purchase', // for purchase screen
     payment: '/payment', // for payment screen
     twoFactorAuth: '/two-factor-auth', // for two factor authentication screen
+    receipt: '/receipt'
 };
 
 export default pathnameCONFIG;

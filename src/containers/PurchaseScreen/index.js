@@ -53,7 +53,7 @@ const PurchaseScreen = () => {
                                 width: 100,
                             }}
                             onClick={() => {
-                                window.location.assign(pathname.twoFactorAuth);
+                                window.location.assign(pathname.receipt);
                             }}
                             disabled={
                                 formik.values.amount === '' ||

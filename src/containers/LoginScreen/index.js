@@ -7,7 +7,7 @@ import { Col, Row, Checkbox, Button } from "antd";
 import LoginBanner from "../../assets/images/LoginBanner.png";
 import EmailField from "../../components/InputField/EmailField";
 import PasswordField from "../../components/InputField/PasswordField";
-import pathname from "../../pathnameCONFIG";
+import TwoFactorAuthModal from '../../components/Modal/TwoFactorAuthModal';
 
 import "./LoginScreen.css";
 
@@ -18,6 +18,7 @@ const LoginScreen = () => {
     const [buttonDisable, setButtonDisable] = useState(true);
     const [errorEmail, setErrorEmail] = useState(false);
     const [helperTextEmail, setHelperTextEmail] = useState(null);
+    const [visible, setVisible] = useState(false);
 
     const validateEmail = (value) => {
         // eslint-disable-next-line no-useless-escape
@@ -50,68 +51,72 @@ const LoginScreen = () => {
     }, [email, password]);
 
     return (
-        <Row>
-            <Col span={12} style={{ height: "100vh" }}>
-                <img src={LoginBanner} className="banner" alt="Banner Login" />
-            </Col>
-            <Col span={12} className="login-layout">
-                <div>
-                    <div className="login-title">
+        <>
+            <Row>
+                <Col span={12} style={{ height: "100vh" }}>
+                    <img src={LoginBanner} className="banner" alt="Banner Login" />
+                </Col>
+                <Col span={12} className="login-layout">
+                    <div>
+                        <div className="login-title">
                         Log In
-                    </div>
-                    <div className="login-subtitle">
+                        </div>
+                        <div className="login-subtitle">
                         Please login to your account to continue
-                    </div>
-                    <div style={{ marginTop: "15px" }}>
-                        <div className="input-title">
+                        </div>
+                        <div style={{ marginTop: "15px" }}>
+                            <div className="input-title">
                             Email
-                        </div>
-                        <EmailField
-                            id="email"
-                            className="input-field"
-                            placeholder="Enter your email"
-                            value={email}
-                            onChange={handleEmailChange}
-                            helperText={helperTextEmail !== null ? helperTextEmail : null}
-                            error={errorEmail}
-                        />
-                        <div className="input-title" style={{ marginTop: "25px" }}>
+                            </div>
+                            <EmailField
+                                id="email"
+                                className="input-field"
+                                placeholder="Enter your email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                helperText={helperTextEmail !== null ? helperTextEmail : null}
+                                error={errorEmail}
+                            />
+                            <div className="input-title" style={{ marginTop: "25px" }}>
                             Password
-                        </div>
-                        <PasswordField
-                            className="input-field"
-                            value={password}
-                            placeholder="Enter your password"
-                            onChange={handlePasswordChange}
-                        />
-                        <Row style={{ marginTop: "17px" }}>
-                            <Col span={12}>
-                                <Checkbox
-                                    onChange={(e) => { setRememberUser(e.target.checked); }}
-                                >
+                            </div>
+                            <PasswordField
+                                className="input-field"
+                                value={password}
+                                placeholder="Enter your password"
+                                onChange={handlePasswordChange}
+                            />
+                            <Row style={{ marginTop: "17px" }}>
+                                <Col span={12}>
+                                    <Checkbox
+                                        onChange={(e) => { setRememberUser(e.target.checked); }}
+                                    >
                                     Remember me
-                                </Checkbox>
-                            </Col>
-                            <Col span={12}>
-                                <div className="forgot-password">
+                                    </Checkbox>
+                                </Col>
+                                <Col span={12}>
+                                    <div className="forgot-password">
                                     Forgot Password?
-                                </div>
-                            </Col>
-                        </Row>
+                                    </div>
+                                </Col>
+                            </Row>
 
-                        <Button
-                            className="login-button"
-                            onClick={() => {
-                                window.location.replace(pathname.dashboard);
-                            }}
-                            disabled={buttonDisable}
-                        >
+                            <Button
+                                className="login-button"
+                                onClick={() => {
+                                    setVisible(true);
+                                    // window.location.replace(pathname.dashboard);
+                                }}
+                                disabled={buttonDisable}
+                            >
                             Sign In
-                        </Button>
+                            </Button>
+                        </div>
                     </div>
-                </div>
-            </Col>
-        </Row>
+                </Col>
+            </Row>
+            <TwoFactorAuthModal visible={visible} onClose={() => setVisible(false)} />
+        </>
     );
 };
 

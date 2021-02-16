@@ -1,19 +1,17 @@
 import React from 'react';
-import { Layout, Row, Col, Button } from 'antd';
+import { Layout, Button, Row, Col } from "antd";
 
 import Container from "../../components/Container";
-import TwoFactorAuthField from "../../components/InputField/TwoFactorAuthField";
+import TotalAmountSummary from "../../components/Receipt/TotalAmountSummary";
+import pathname from "../../pathnameCONFIG";
 
 const { Footer } = Layout;
 
-const TwoFactorAuthScreen = () => {
+const ReceiptScreen = () => {
     return (
         <>
-            <Container
-                title="Two-Factor Authentification"
-                subtitle="Please enter 6 digits code sent to your phone"
-            >
-                <TwoFactorAuthField />
+            <Container title="Receipt" subtitle="Summary of your transaction">
+                <TotalAmountSummary />
             </Container>
             <Footer
                 style={{
@@ -44,10 +42,12 @@ const TwoFactorAuthScreen = () => {
                                 height: 50,
                                 width: 100,
                             }}
-                            disabled={false}
                             size="large"
+                            onClick={() => {
+                                window.location.assign(pathname.dashboard);
+                            }}
                         >
-                Submit
+                            Confirm
                         </Button>
                     </Col>
                 </Row>
@@ -56,8 +56,8 @@ const TwoFactorAuthScreen = () => {
     );
 };
 
-TwoFactorAuthScreen.propTypes = {
+ReceiptScreen.propTypes = {
 
 };
 
-export default TwoFactorAuthScreen;
+export default ReceiptScreen;
