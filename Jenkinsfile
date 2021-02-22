@@ -57,16 +57,16 @@ node ('nodejs') {
 
     stage ('Install Dependencies'){
         sh """
-        npm cache clean --force
+        yarn cache clean --force
          rm package-lock.json || true
          rm -r node_modules || true
          CHROMEDRIVER_SKIP_DOWNLOAD=true
          rm -f .npmrc
-         npm install
+         yarn install
       """
     }
     stage('Build Package'){
-       sh 'PUBLIC_URL="/' + micrositeName + '" npm run build'
+       sh 'PUBLIC_URL="/' + micrositeName + '" yarn run build'
     }
 
    stage('OpenShift Build'){
