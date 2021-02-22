@@ -73,7 +73,7 @@ node ('nodejs') {
        withCredentials([[$class: 'UsernamePasswordMultiBinding',
             credentialsId: 'okd-gagah',
             usernameVariable: 'oc_username', passwordVariable: 'oc_password']]) {
-                  sh 'oc login -u=${oc_username} -p=${oc_password} --server=https://okd.mylab-siab.com:8443 --insecure-skip-tls-verify=true'
+                  sh 'oc login -u=${oc_username} -p=${oc_password} --server=https://ocp.infosyssolusiterpadu.com:8443 --insecure-skip-tls-verify=true'
                }
           appMajorVersion = appFullVersion.substring(0, appFullVersion.indexOf('.'))
 
