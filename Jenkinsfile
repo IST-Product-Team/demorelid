@@ -10,8 +10,8 @@ def git_branch = 'dev_yoga'
 def nexus_base_url = 'https://library.mylabzolution.com'
 def nexus_deploy_repo = "$nexus_base_url/repository/ist_npm/"
 
-def oc_command = 'create'
-def oc_mode = ''
+def oc_command = 'replace'
+def oc_mode = '--force=true'
 
 def cpu_limit = '30m'
 def memory_limit = '300Mi'
@@ -22,7 +22,7 @@ def health_probe_path = '/'
 
 def host_okd = 'https://ocp.infosyssolusiterpadu.com:8443'
 def ocp_project = 'poc-relid'
-def env = 'siab'
+def env = 'relid'
 def pull_secret = 'default-dockercfg-v54cj'
 
 
