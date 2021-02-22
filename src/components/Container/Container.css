@@ -1,0 +1,26 @@
+.transaction-info{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.title-transaction{
+    font-size: 35px;
+    font-weight: 700;
+    padding-bottom: 5px;
+}
+
+.subtitle-transaction{
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--gray-medium);
+    padding-bottom: 10px;
+}
+
+.MuiPaper-rounded {
+    border-radius: 2px !important;
+}
+
+.MuiPaper-root {
+    padding: 20px;
+}

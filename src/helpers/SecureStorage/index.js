@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import CryptoJS from "crypto-js";
 import SecureStorage from "secure-web-storage";
 
