@@ -19,9 +19,6 @@ const LoginScreen = () => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        // email !== ""
-        //     ? setButtonDisable(false)
-        //     : setButtonDisable(true);
         if (email !== "") {
             setButtonDisable(false);
             setHelperTextEmail(null);
@@ -31,21 +28,7 @@ const LoginScreen = () => {
         }
     }, [email]);
 
-    // const validateEmail = (value) => {
-    //     const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    //     if (!re.test(value) && value.trim().length !== 0) {
-    //         setErrorEmail(true);
-    //         setHelperTextEmail('The format of this email is incorrect.');
-    //         setButtonDisable(true);
-    //     } else {
-    //         setErrorEmail(false);
-    //         setHelperTextEmail(null);
-    //         setButtonDisable(false);
-    //     }
-    // };
-
     const handleEmailChange = (value) => {
-        validateEmail(value.target.value);
         setEmail(value.target.value);
     };
 
