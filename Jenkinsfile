@@ -22,7 +22,7 @@ def health_probe_path = '/'
 
 def host_okd = 'https://ocp.infosyssolusiterpadu.com:8443'
 def ocp_project = 'poc-relid'
-def env = 'infosys-micro'
+def env = 'siab'
 def pull_secret = 'default-dockercfg-v54cj'
 
 
