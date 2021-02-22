@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { Col, Row, Button, message } from "antd";
-import Countdown from "react-countdown-now";
 
 import LoginBanner from "../../assets/images/LoginBanner.png";
 import EmailField from "../../components/InputField/EmailField";
@@ -41,23 +40,14 @@ const LoginScreen = () => {
         requestApi
             .generateRVN(email)
             .then((res) => {
-                <Countdown
-                    id={"countdown-checkStatus"}
-                    data-test-id="check-status-countdown"
-                    date={Date.now() + 5}
-                    onComplete={() => {
-                        handleGetStatus();
-                    }}
-                />
-                // handleGetStatus();
+                console.log('nyoo cek response', res)
+                // counter();
             }).catch((err) => {
-                console.log('nyoo cek error', err);
-                message.error(err.data.error_msg);
+                message.error(err.data.error_message);
             });
     };
 
     const handleGetStatus = (value) => {
-        console.log('nyoo sini')
         requestApi
             .getRVNStatus()
             .then((res) => {
@@ -65,6 +55,20 @@ const LoginScreen = () => {
             }).catch((err) => {
                 console.log('nyoo cek error', err);
             });
+    };
+
+    const counter = () => {
+        let counter = 0
+        handleGetStatus()
+        if (counter > 12) {
+            console.log('nyoo reset')
+            clearInterval(intervalId)
+        } else {
+            window.setInterval(function () {
+                console.log('nyoo sini', counter)
+                counter = counter + 1
+            }, 5000);
+        }
     };
 
     return (
