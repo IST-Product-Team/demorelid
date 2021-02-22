@@ -7,6 +7,7 @@ axios.interceptors.request.use(
             // const token = SecureStorage.getItem("credentials").access_token;
             // if (token !== null) {
             //     request.headers.Authorization = `Bearer ${token}`;
+            request.headers.Authorization = `Basic aXN0aW1wbGVudGVycHJpc2U6MjM5ajJx`;
             request.timeout = 60 * 1000;
             // }
         } catch (e) {
