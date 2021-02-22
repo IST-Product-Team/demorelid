@@ -57,12 +57,12 @@ node ('nodejs') {
 
     stage ('Install Dependencies'){
         sh """
-        yarn cache clean --force
+        npm cache clean --force
          rm package-lock.json || true
          rm -r node_modules || true
          CHROMEDRIVER_SKIP_DOWNLOAD=true
          rm -f .npmrc
-         yarn install
+         npm install
       """
     }
     stage('Build Package'){
