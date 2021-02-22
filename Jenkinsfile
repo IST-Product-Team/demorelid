@@ -66,12 +66,12 @@ node ('nodejs') {
       """
     }
     stage('Build Package'){
-       sh 'PUBLIC_URL="/' + micrositeName + '" yarn run build'
+       sh 'PUBLIC_URL="/' + micrositeName + '" npm run build'
     }
 
    stage('OpenShift Build'){
        withCredentials([[$class: 'UsernamePasswordMultiBinding',
-            credentialsId: 'okd',
+            credentialsId: 'okd-gagah',
             usernameVariable: 'oc_username', passwordVariable: 'oc_password']]) {
                   sh 'oc login -u=${oc_username} -p=${oc_password} --server=https://okd.mylab-siab.com:8443 --insecure-skip-tls-verify=true'
                }
