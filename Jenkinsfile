@@ -32,7 +32,7 @@ def gitCommitId
 
 node ('nodejs') {
    stage ('Checkout'){
-      git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'gagah'
+      git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'gitlab-gagah'
    }
 
    stage ('Prepare'){
