@@ -18,18 +18,31 @@ const LoginScreen = () => {
     const [helperTextEmail, setHelperTextEmail] = useState(null);
     const [visible, setVisible] = useState(false);
 
-    const validateEmail = (value) => {
-        const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (!re.test(value) && value.trim().length !== 0) {
-            setErrorEmail(true);
-            setHelperTextEmail('The format of this email is incorrect.');
-            setButtonDisable(true);
-        } else {
-            setErrorEmail(false);
-            setHelperTextEmail(null);
+    useEffect(() => {
+        // email !== ""
+        //     ? setButtonDisable(false)
+        //     : setButtonDisable(true);
+        if (email !== "") {
             setButtonDisable(false);
+            setHelperTextEmail(null);
+        } else {
+            setButtonDisable(true);
+            setHelperTextEmail('The format of this email is incorrect.');
         }
-    };
+    }, [email]);
+
+    // const validateEmail = (value) => {
+    //     const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    //     if (!re.test(value) && value.trim().length !== 0) {
+    //         setErrorEmail(true);
+    //         setHelperTextEmail('The format of this email is incorrect.');
+    //         setButtonDisable(true);
+    //     } else {
+    //         setErrorEmail(false);
+    //         setHelperTextEmail(null);
+    //         setButtonDisable(false);
+    //     }
+    // };
 
     const handleEmailChange = (value) => {
         validateEmail(value.target.value);
