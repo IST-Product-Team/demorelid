@@ -10,8 +10,6 @@ axios.interceptors.request.use(
             request.headers.Authorization = `Basic aXN0aW1wbGVudGVycHJpc2U6MjM5ajJx`;
             request.timeout = 60 * 1000;
             request.headers.referrerPolicy = `origin-when-cross-origin`;
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             // }
         } catch (e) {
             return Promise.reject(e);
