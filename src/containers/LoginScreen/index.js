@@ -8,6 +8,7 @@ import LoginBanner from "../../assets/images/LoginBanner.png";
 import EmailField from "../../components/InputField/EmailField";
 import TwoFactorAuthModal from '../../components/Modal/TwoFactorAuthModal';
 import requestApi from "../../services/index";
+import pathname from "../../pathnameCONFIG"
 
 import "./LoginScreen.css";
 
@@ -17,6 +18,7 @@ const LoginScreen = () => {
     const [errorEmail, setErrorEmail] = useState(false);
     const [helperTextEmail, setHelperTextEmail] = useState(null);
     const [visible, setVisible] = useState(false);
+    const [counterStatus, setCounterStatus] = useState(false);
 
     useEffect(() => {
         if (email !== "") {
@@ -24,9 +26,25 @@ const LoginScreen = () => {
             setHelperTextEmail(null);
         } else {
             setButtonDisable(true);
-            setHelperTextEmail('The format of this email is incorrect.');
         }
     }, [email]);
+
+    useEffect(() => {
+        let timer
+        if (counterStatus === true) {
+            handleGetStatus()
+            timer = window.setInterval(function () {
+                handleGetStatus()
+            }, 5000);
+
+            setTimeout(() => {
+                window.clearInterval(timer);
+                message.error('request timeout');
+            }, 60000);
+        } else {
+            window.clearInterval(timer);
+        }
+    }, [counterStatus]);
 
     const handleEmailChange = (value) => {
         setEmail(value.target.value);
@@ -37,9 +55,10 @@ const LoginScreen = () => {
             .generateRVN(email)
             .then((res) => {
                 console.log('nyoo cek response', res)
-                // counter();
+                setCounterStatus(true);
             }).catch((err) => {
                 message.error(err.data.error_message);
+                console.log('nyoo cek error', res)
             });
     };
 
@@ -51,20 +70,6 @@ const LoginScreen = () => {
             }).catch((err) => {
                 console.log('nyoo cek error', err);
             });
-    };
-
-    const counter = () => {
-        let counter = 0
-        handleGetStatus()
-        if (counter > 12) {
-            console.log('nyoo reset')
-            clearInterval(intervalId)
-        } else {
-            window.setInterval(function () {
-                console.log('nyoo sini', counter)
-                counter = counter + 1
-            }, 5000);
-        }
     };
 
     return (
