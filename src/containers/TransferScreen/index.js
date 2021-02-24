@@ -10,10 +10,11 @@ import requestApi from "../../services/index";
 import secureStorage from "../../helpers/SecureStorage";
 import localIpUrl from 'local-ip-url';
 import { osName, browserName } from 'react-device-detect';
+import { geolocated } from "react-geolocated";
 
 const { Footer } = Layout;
 
-const TransferScreen = () => {
+const TransferScreen = (props) => {
     const formik = useFormik({
         initialValues: initialValues.transfer,
         validationSchema: validationSchema.transfer,
@@ -51,7 +52,7 @@ const TransferScreen = () => {
     const handleLogin = (value) => {
         setLoading(true);
         requestApi
-            .generateRVN(secureStorage.getItem("userId"), deviceInfo)
+            .generateRVN(secureStorage.getItem("userId"), deviceInfo, props.coords)
             .then((res) => {
                 console.log('nyoo cek response', res)
                 if (res.response_code !== 0) {
@@ -151,4 +152,11 @@ const TransferScreen = () => {
     );
 };
 
-export default TransferScreen;
+// export default TransferScreen;
+
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+})(TransferScreen);

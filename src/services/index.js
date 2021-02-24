@@ -5,7 +5,7 @@ const getStatusRvn = `${process.env.REACT_APP_GET_STATUS_RVN}`;
 
 const request = {};
 
-request.generateRVN = (requestData, deviceInfo) => {
+request.generateRVN = (requestData, deviceInfo, position) => {
     return new Promise((resolve, reject) => {
         axios
             .post(`${generateRvn}/generateRVN.htm`, {
@@ -14,13 +14,13 @@ request.generateRVN = (requestData, deviceInfo) => {
                 user_id: requestData,
                 expires_in: 180,
                 notification_msg: {
-                    message: "You have a REL-IDverify notification", //detail: ip apa dan device dan browser apa
-                    subject: "REL-IDverify notification" //activiti : login/transfer
+                    message: "You have a REL-IDverify notification",
+                    subject: "REL-IDverify notification"
                 },
                 msg: [{
                     lng: "English",
                     subject: deviceInfo.status,
-                    message: `anda sedang mengakses internet bangking dengan browser: ${deviceInfo.browserName} di ${deviceInfo.osName} dengan ip: ${deviceInfo.ip}`,
+                    message: `anda sedang mengakses internet bangking dengan browser: ${deviceInfo.browserName} di ${deviceInfo.osName} dengan ip: ${deviceInfo.ip} dan posisi latitude: ${position.latitude}, longitude: ${position.longitude}`,
                     label: {
                         "Accept": "Approve",
                         "Reject": "Disapprove"

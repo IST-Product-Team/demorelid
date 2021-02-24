@@ -11,10 +11,11 @@ import pathname from "../../pathnameCONFIG";
 import secureStorage from "../../helpers/SecureStorage";
 import localIpUrl from 'local-ip-url';
 import { osName, browserName } from 'react-device-detect';
+import { geolocated } from "react-geolocated";
 
 import "./LoginScreen.css";
 
-const LoginScreen = () => {
+const LoginScreen = (props) => {
     const [modal, contextHolder] = Modal.useModal();
 
     const [email, setEmail] = useState("");
@@ -63,7 +64,7 @@ const LoginScreen = () => {
     const handleLogin = (value) => {
         setLoading(true);
         requestApi
-            .generateRVN(email, deviceInfo)
+            .generateRVN(email, deviceInfo, props.coords)
             .then((res) => {
                 console.log('nyoo cek response', res)
                 if (res.response_code !== 0) {
@@ -157,10 +158,17 @@ const LoginScreen = () => {
     );
 };
 
-function mapStateToProps() {
-    return {};
-}
+// function mapStateToProps() {
+//     return {};
+// }
 
-export default withRouter(
-    connect(mapStateToProps)(withTranslation('translations')(LoginScreen))
-);
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+})(LoginScreen);
+
+// export default withRouter(
+//     connect(mapStateToProps)(withTranslation('translations')(LoginScreen))
+// );
