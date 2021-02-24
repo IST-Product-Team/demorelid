@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const generateRVN = `${process.env.REACT_APP_GENERATE_RVN}`;
+const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
 const request = {};
 
 request.generateRVN = requestData => {
     return new Promise((resolve, reject) => {
         axios
-            .post(`${generateRVN}/generateRVN.htm`, {
+            .post(`${baseUrl}/generateRVN.htm`, {
                 msg_id: "1234567890",
                 enterprise_id: "istimplenterprise",
                 user_id: requestData,
@@ -50,7 +50,7 @@ request.getRVNStatus = requestData => {
 
     return new Promise((resolve, reject) => {
         axios
-            .get(`${generateRVN}/getRVNStatus.htm/683a2cae-3d06-42b2-ba2c-ae3d0662b216`, reqData)
+            .get(`${baseUrl}/getRVNStatus.htm/${requestData}`, reqData)
             .then(res => {
                 resolve(res.data);
             })

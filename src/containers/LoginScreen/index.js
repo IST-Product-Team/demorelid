@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { Col, Row, Button, message } from "antd";
+import { Col, Row, Button, Modal } from "antd";
 
 import LoginBanner from "../../assets/images/LoginBanner.png";
 import EmailField from "../../components/InputField/EmailField";
@@ -13,12 +13,15 @@ import pathname from "../../pathnameCONFIG"
 import "./LoginScreen.css";
 
 const LoginScreen = () => {
+    const [modal, contextHolder] = Modal.useModal();
+
     const [email, setEmail] = useState("");
     const [buttonDisable, setButtonDisable] = useState(true);
     const [errorEmail, setErrorEmail] = useState(false);
     const [helperTextEmail, setHelperTextEmail] = useState(null);
     const [visible, setVisible] = useState(false);
     const [counterStatus, setCounterStatus] = useState(false);
+    const [notifUuid, setNotifUuid] = useState(null);
 
     useEffect(() => {
         if (email !== "") {
@@ -32,15 +35,10 @@ const LoginScreen = () => {
     useEffect(() => {
         let timer
         if (counterStatus === true) {
-            handleGetStatus()
+            handleGetStatus(notifUuid)
             timer = window.setInterval(function () {
-                handleGetStatus()
+                handleGetStatus(notifUuid)
             }, 5000);
-
-            setTimeout(() => {
-                window.clearInterval(timer);
-                message.error('request timeout');
-            }, 60000);
         } else {
             window.clearInterval(timer);
         }
@@ -55,18 +53,41 @@ const LoginScreen = () => {
             .generateRVN(email)
             .then((res) => {
                 console.log('nyoo cek response', res)
-                setCounterStatus(true);
+                if (res.response_code !== 0) {
+                    Modal.error({
+                        title: res.error_msg
+                    });
+                } else {
+                    setNotifUuid(res.notification_uuid);
+                    setCounterStatus(true);
+                }
             }).catch((err) => {
-                message.error(err.data.error_message);
-                console.log('nyoo cek error', res)
+                console.log('nyoo cek error', err)
+                Modal.error({
+                    title: err.data.error_msg
+                });
             });
     };
 
     const handleGetStatus = (value) => {
         requestApi
-            .getRVNStatus()
+            .getRVNStatus(value)
             .then((res) => {
-                window.location.replace(pathname.dashboard);
+                if (res.status === "UPDATED" && res.action_response === "Approved") {
+                    window.location.replace(pathname.dashboard);
+                } else if (res.status === "UPDATED" && res.action_response === "Disapproved") {
+                    counterStatus(false)
+                    Modal.error({
+                        title: res.action_response
+                    });
+                } else if (res.status === "ACTIVE" && res.action_response === "NONE") {
+                    console.log('nyoo cek waiting', res);
+                } else {
+                    counterStatus(false)
+                    Modal.error({
+                        title: res.status
+                    });
+                }
             }).catch((err) => {
                 console.log('nyoo cek error', err);
             });
