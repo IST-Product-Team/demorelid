@@ -8,6 +8,8 @@ import Form from "../../components/Forms";
 import pathname from '../../pathnameCONFIG';
 import requestApi from "../../services/index";
 import secureStorage from "../../helpers/SecureStorage";
+import localIpUrl from 'local-ip-url';
+import { osName, browserName } from 'react-device-detect';
 
 const { Footer } = Layout;
 
@@ -24,6 +26,16 @@ const TransferScreen = () => {
     const [notifUuid, setNotifUuid] = useState(null);
     const [loading, setLoading] = useState(false);
     const [timer, setTimer] = useState(null);
+    const [deviceInfo, setDeviceInfo] = useState({});
+
+    useEffect(() => {
+        setDeviceInfo({
+            ip: localIpUrl('public', 'ipv4'),
+            osName: osName,
+            browserName: browserName,
+            status: 'Login'
+        })
+    }, []);
 
     useEffect(() => {
         if (counterStatus === true) {
@@ -39,7 +51,7 @@ const TransferScreen = () => {
     const handleLogin = (value) => {
         setLoading(true);
         requestApi
-            .generateRVN(secureStorage.getItem("userId"))
+            .generateRVN(secureStorage.getItem("userId"), deviceInfo)
             .then((res) => {
                 console.log('nyoo cek response', res)
                 if (res.response_code !== 0) {

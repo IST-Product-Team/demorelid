@@ -9,6 +9,8 @@ import EmailField from "../../components/InputField/EmailField";
 import requestApi from "../../services/index";
 import pathname from "../../pathnameCONFIG";
 import secureStorage from "../../helpers/SecureStorage";
+import localIpUrl from 'local-ip-url';
+import { osName, browserName } from 'react-device-detect';
 
 import "./LoginScreen.css";
 
@@ -23,6 +25,16 @@ const LoginScreen = () => {
     const [notifUuid, setNotifUuid] = useState(null);
     const [loading, setLoading] = useState(false);
     const [timer, setTimer] = useState(null);
+    const [deviceInfo, setDeviceInfo] = useState({});
+
+    useEffect(() => {
+        setDeviceInfo({
+            ip: localIpUrl('public', 'ipv4'),
+            osName: osName,
+            browserName: browserName,
+            status: 'Login'
+        })
+    }, []);
 
     useEffect(() => {
         if (email !== "") {
@@ -51,7 +63,7 @@ const LoginScreen = () => {
     const handleLogin = (value) => {
         setLoading(true);
         requestApi
-            .generateRVN(email)
+            .generateRVN(email, deviceInfo)
             .then((res) => {
                 console.log('nyoo cek response', res)
                 if (res.response_code !== 0) {
