@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { Col, Row, Button, Modal } from "antd";
+import { Col, Row, Button, Modal, Spin } from "antd";
 
 import LoginBanner from "../../assets/images/LoginBanner.png";
 import EmailField from "../../components/InputField/EmailField";
-import TwoFactorAuthModal from '../../components/Modal/TwoFactorAuthModal';
 import requestApi from "../../services/index";
-import pathname from "../../pathnameCONFIG"
+import pathname from "../../pathnameCONFIG";
+import secureStorage from "../../helpers/SecureStorage";
 
 import "./LoginScreen.css";
 
@@ -19,9 +19,10 @@ const LoginScreen = () => {
     const [buttonDisable, setButtonDisable] = useState(true);
     const [errorEmail, setErrorEmail] = useState(false);
     const [helperTextEmail, setHelperTextEmail] = useState(null);
-    const [visible, setVisible] = useState(false);
     const [counterStatus, setCounterStatus] = useState(false);
     const [notifUuid, setNotifUuid] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [timer, setTimer] = useState(null);
 
     useEffect(() => {
         if (email !== "") {
@@ -33,14 +34,13 @@ const LoginScreen = () => {
     }, [email]);
 
     useEffect(() => {
-        let timer
         if (counterStatus === true) {
             handleGetStatus(notifUuid)
-            timer = window.setInterval(function () {
+            setTimer(setInterval(function () {
                 handleGetStatus(notifUuid)
-            }, 5000);
+            }, 5000));
         } else {
-            window.clearInterval(timer);
+            clearInterval(timer);
         }
     }, [counterStatus]);
 
@@ -49,6 +49,7 @@ const LoginScreen = () => {
     };
 
     const handleLogin = (value) => {
+        setLoading(true);
         requestApi
             .generateRVN(email)
             .then((res) => {
@@ -63,6 +64,7 @@ const LoginScreen = () => {
                 }
             }).catch((err) => {
                 console.log('nyoo cek error', err)
+                setLoading(false);
                 Modal.error({
                     title: err.data.error_msg
                 });
@@ -74,16 +76,19 @@ const LoginScreen = () => {
             .getRVNStatus(value)
             .then((res) => {
                 if (res.status === "UPDATED" && res.action_response === "Approved") {
+                    secureStorage.setItem("userId", email)
                     window.location.replace(pathname.dashboard);
                 } else if (res.status === "UPDATED" && res.action_response === "Disapproved") {
-                    counterStatus(false)
+                    setLoading(false);
+                    setCounterStatus(false);
                     Modal.error({
                         title: res.action_response
                     });
                 } else if (res.status === "ACTIVE" && res.action_response === "NONE") {
                     console.log('nyoo cek waiting', res);
                 } else {
-                    counterStatus(false)
+                    setLoading(false);
+                    setCounterStatus(false);
                     Modal.error({
                         title: res.status
                     });
@@ -94,7 +99,7 @@ const LoginScreen = () => {
     };
 
     return (
-        <>
+        <Spin tip="Loading..." spinning={loading}>
             <Row>
                 <Col span={12} style={{ height: "100vh" }}>
                     <img src={LoginBanner} className="banner" alt="Banner Login" />
@@ -136,8 +141,7 @@ const LoginScreen = () => {
                     </div>
                 </Col>
             </Row>
-            <TwoFactorAuthModal visible={visible} onClose={() => setVisible(false)} />
-        </>
+        </Spin>
     );
 };
 

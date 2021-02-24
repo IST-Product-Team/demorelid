@@ -40,14 +40,14 @@ const ReceiptScreen = () => {
                             type="primary"
                             style={{
                                 height: 50,
-                                width: 100,
+                                // width: 100,
                             }}
                             size="large"
                             onClick={() => {
                                 window.location.assign(pathname.dashboard);
                             }}
                         >
-                            Confirm
+                            Back to Home
                         </Button>
                     </Col>
                 </Row>

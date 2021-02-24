@@ -4,21 +4,21 @@ import { Paper, Divider } from "@material-ui/core";
 
 import "./Container.css";
 
-const Container = ({title, subtitle, children}) => {
+const Container = ({ title, subtitle, children }) => {
     return (
         <div style={{
             padding: '25px',
-            width: '100vw',
+            width: '82vw',
         }}>
             <Paper elevation={2}>
                 <div className="transaction-info">
                     <span className="title-transaction">
                         {title}
                     </span>
-                    <span  className="subtitle-transaction">
+                    <span className="subtitle-transaction">
                         {subtitle}
                     </span>
-                    <Divider/>
+                    <Divider />
                 </div>
                 <div style={{
                     padding: 25
