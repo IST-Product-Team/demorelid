@@ -1,12 +1,19 @@
 import axios from "axios";
 
-const generateRvn = `${process.env.REACT_APP_GENERATE_RVN}`;
-const getStatusRvn = `${process.env.REACT_APP_GET_STATUS_RVN}`;
+// const generateRvn = `${process.env.REACT_APP_GENERATE_RVN}`;
+// const getStatusRvn = `${process.env.REACT_APP_GET_STATUS_RVN}`;
+
+const generateRvn = 'https://cekapipermatax.getsandbox.com:443';
+const getStatusRvn = 'https://cekapipermatax.getsandbox.com:443';
 
 const request = {};
 
 request.generateRVN = (requestData, deviceInfo, position) => {
+
+    console.log(position)
+
     return new Promise((resolve, reject) => {
+        
         axios
             .post(`${generateRvn}/generateRVN.htm`, {
                 msg_id: "1234567890",
@@ -20,7 +27,7 @@ request.generateRVN = (requestData, deviceInfo, position) => {
                 msg: [{
                     lng: "English",
                     subject: deviceInfo.status,
-                    message: `anda sedang mengakses internet bangking dengan browser: ${deviceInfo.browserName} di ${deviceInfo.osName} dengan ip: ${deviceInfo.ip} dan posisi latitude: ${position.latitude}, longitude: ${position.longitude}`,
+                    message: `Anda sedang mengakses internet bangking dengan browser: ${deviceInfo.browserName} di ${deviceInfo.osName} dengan ip: ${deviceInfo.ip} dan posisi`,
                     label: {
                         "Accept": "Approve",
                         "Reject": "Disapprove"
