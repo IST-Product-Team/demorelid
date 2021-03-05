@@ -1,10 +1,7 @@
 import axios from "axios";
 
-// const generateRvn = `${process.env.REACT_APP_GENERATE_RVN}`;
-// const getStatusRvn = `${process.env.REACT_APP_GET_STATUS_RVN}`;
-
-const generateRvn = 'https://cekapipermatax.getsandbox.com:443';
-const getStatusRvn = 'https://cekapipermatax.getsandbox.com:443';
+const generateRvn = `${process.env.REACT_APP_GENERATE_RVN}`;
+const getStatusRvn = `${process.env.REACT_APP_GET_STATUS_RVN}`;
 
 const request = {};
 
@@ -55,7 +52,7 @@ request.generateRVN = (requestData, deviceInfo, position) => {
 
 request.getRVNStatus = requestData => {
     let reqData = {};
-
+  
     return new Promise((resolve, reject) => {
         axios
             .get(`${getStatusRvn}/getRVNStatus.htm/${requestData}`, reqData)

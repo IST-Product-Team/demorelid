@@ -43,8 +43,8 @@
     "yup": "^0.27.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "start": "node ./src/custom-run-terminal.js && react-app-rewired start",
+    "build": "node ./src/custom-run-terminal.js && react-app-rewired build",
     "test": "jest",
     "eject": "react-app-rewired eject",
     "lint": "eslint ./src/components/**/**.js ./src/containers/**/**.js ./src/helpers/**/**.js ./src/services/**/**.js",
