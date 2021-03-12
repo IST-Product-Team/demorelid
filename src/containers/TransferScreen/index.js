@@ -30,11 +30,40 @@ const TransferScreen = (props) => {
     const [deviceInfo, setDeviceInfo] = useState({});
 
     useEffect(() => {
-        setDeviceInfo({
-            ip: localIpUrl('public', 'ipv4'),
-            osName: osName,
-            browserName: browserName,
-            status: 'Login'
+        
+        // const urlFetch = fetch('alamaturl')
+        // urlFetch.then( res => {
+        //     if(res.status === 200)
+        //         return res.json()   
+        // }).then( resJson => {
+        //     this.setState({
+        //         data: resJson
+        //     })
+        // })
+
+
+
+        fetch("https://api.ipify.org/?format=json")
+        .then(response => {
+            return response.json();
+        }, "jsonp")
+        .then(res => {
+            console.log(res.ip)
+            setDeviceInfo({
+                ip: res.ip,
+                osName: osName,
+                browserName: browserName,
+                status: 'Login'
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            setDeviceInfo({
+                ip: localIpUrl('public', 'ipv4'),
+                osName: osName,
+                browserName: browserName,
+                status: 'Login'
+            })
         })
     }, []);
 
