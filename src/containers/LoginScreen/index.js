@@ -14,6 +14,7 @@ import { osName, browserName } from 'react-device-detect';
 import { geolocated } from "react-geolocated";
 
 import "./LoginScreen.css";
+import { useControlled } from '@material-ui/core';
 
 const LoginScreen = (props) => {
     const [modal, contextHolder] = Modal.useModal();
@@ -28,14 +29,54 @@ const LoginScreen = (props) => {
     const [timer, setTimer] = useState(null);
     const [deviceInfo, setDeviceInfo] = useState({});
 
+
     useEffect(() => {
-        setDeviceInfo({
-            ip: localIpUrl('public', 'ipv4'),
-            osName: osName,
-            browserName: browserName,
-            status: 'Login'
+        
+        // const urlFetch = fetch('alamaturl')
+        // urlFetch.then( res => {
+        //     if(res.status === 200)
+        //         return res.json()   
+        // }).then( resJson => {
+        //     this.setState({
+        //         data: resJson
+        //     })
+        // })
+
+
+
+        fetch("https://api.ipify.org/?format=json")
+        .then(response => {
+            return response.json();
+        }, "jsonp")
+        .then(res => {
+            console.log(res.ip)
+            setDeviceInfo({
+                ip: res.ip,
+                osName: osName,
+                browserName: browserName,
+                status: 'Login'
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            setDeviceInfo({
+                ip: localIpUrl('public', 'ipv4'),
+                osName: osName,
+                browserName: browserName,
+                status: 'Login'
+            })
         })
     }, []);
+
+
+    // useEffect(() => {
+    //     setDeviceInfo({
+    //         ip: localIpUrl('public', 'ipv4'),
+    //         osName: osName,
+    //         browserName: browserName,
+    //         status: 'Login'
+    //     })
+    // }, []);
 
     useEffect(() => {
         if (email !== "") {
@@ -111,7 +152,11 @@ const LoginScreen = (props) => {
             });
     };
 
-    return (
+    return !props.isGeolocationAvailable ? (
+        <div>Your browser does not support Geolocation</div>
+    ) : !props.isGeolocationEnabled ? (
+        <div>Geolocation is not enabled</div>
+    ) : props.coords ? (
         <Spin tip="Loading..." spinning={loading}>
             <Row>
                 <Col span={12} style={{ height: "100vh" }}>
@@ -155,7 +200,56 @@ const LoginScreen = (props) => {
                 </Col>
             </Row>
         </Spin>
+    ) : (
+        <div>Getting the location data&hellip; </div>
     );
+
+    
+    // return (
+    //     <Spin tip="Loading..." spinning={loading}>
+    //         <Row>
+    //             <Col span={12} style={{ height: "100vh" }}>
+    //                 <img src={LoginBanner} className="banner" alt="Banner Login" />
+    //             </Col>
+    //             <Col span={12} className="login-layout">
+    //                 <div>
+    //                     <div className="login-title">
+    //                         Log In
+    //                     </div>
+    //                     <div className="login-subtitle">
+    //                         Please login to your account to continue
+    //                 </div>
+    //                     <div style={{ marginTop: "15px" }}>
+    //                         <div className="input-title">
+    //                             Username
+    //                     </div>
+    //                         <br />
+    //                         <EmailField
+    //                             id={"email"}
+    //                             className="input-field"
+    //                             placeholder="Enter username"
+    //                             value={email}
+    //                             onChange={handleEmailChange}
+    //                             helperText={helperTextEmail !== null ? helperTextEmail : null}
+    //                             error={errorEmail}
+    //                         />
+
+    //                         <Button
+    //                             className="login-button"
+    //                             onClick={() => {
+    //                                 handleLogin();
+    //                                 // handleGetStatus();
+    //                             }}
+    //                             disabled={buttonDisable}
+    //                         >
+    //                             Sign In
+    //                         </Button>
+    //                     </div>
+    //                 </div>
+    //             </Col>
+    //         </Row>
+    //     </Spin>
+    // );
 };
 
 // function mapStateToProps() {
@@ -166,7 +260,7 @@ export default geolocated({
     positionOptions: {
         enableHighAccuracy: false,
     },
-    userDecisionTimeout: 5000,
+    userDecisionTimeout: 50000,
 })(LoginScreen);
 
 // export default withRouter(

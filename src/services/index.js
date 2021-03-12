@@ -24,7 +24,7 @@ request.generateRVN = (requestData, deviceInfo, position) => {
                 msg: [{
                     lng: "English",
                     subject: deviceInfo.status,
-                    message: `Anda sedang mengakses internet bangking dengan browser: ${deviceInfo.browserName} di ${deviceInfo.osName} dengan ip: ${deviceInfo.ip} dan posisi`,
+                    message: `Anda sedang mengakses internet bangking dengan browser: ${deviceInfo.browserName} di ${deviceInfo.osName} dengan ip: ${deviceInfo.ip} dan latitude ${position.latitude}, longitude ${position.longitude}`,
                     label: {
                         "Accept": "Approve",
                         "Reject": "Disapprove"
