@@ -108,11 +108,5 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run lint && yarn test",
-      "pre-push": "yarn run lint"
-    }
   }
 }
