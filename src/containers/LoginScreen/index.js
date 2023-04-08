@@ -105,12 +105,12 @@ const LoginScreen = (props) => {
       .generateRVN(email, deviceInfo, props.coords)
       .then((res) => {
         console.log('nyoo cek response', res);
-        if (res?.response_code !== 0) {
+        if (res?.data?.response_code !== 0) {
           Modal.error({
             title: res.error_msg,
           });
         } else {
-          setNotifUuid(res?.notification_uuid);
+          setNotifUuid(res?.data?.notification_uuid);
           setCounterStatus(true);
         }
       })
@@ -127,25 +127,31 @@ const LoginScreen = (props) => {
     requestApi
       .getRVNStatus(value)
       .then((res) => {
-        if (res.status === 'UPDATED' && res.action_response === 'Approved') {
+        if (
+          res?.data?.status === 'UPDATED' &&
+          res?.data?.action_response === 'Approve'
+        ) {
           secureStorage.setItem('userId', email);
           window.location.replace(pathname.dashboard);
         } else if (
-          res.status === 'UPDATED' &&
-          res.action_response === 'Disapproved'
+          res?.data?.status === 'UPDATED' &&
+          res?.data?.action_response === 'Disapprove'
         ) {
           setLoading(false);
           setCounterStatus(false);
           Modal.error({
-            title: res.action_response,
+            title: res?.data?.action_response,
           });
-        } else if (res.status === 'ACTIVE' && res.action_response === 'NONE') {
+        } else if (
+          res?.data?.status === 'ACTIVE' &&
+          res?.data?.action_response === 'NONE'
+        ) {
           console.log('nyoo cek waiting', res);
         } else {
           setLoading(false);
           setCounterStatus(false);
           Modal.error({
-            title: res.status,
+            title: res?.data?.status,
           });
         }
       })
@@ -187,7 +193,7 @@ const LoginScreen = (props) => {
                 className="login-button"
                 onClick={() => {
                   handleLogin();
-                  // handleGetStatus();
+                  //handleGetStatus();
                 }}
                 disabled={buttonDisable}
               >
