@@ -3,7 +3,7 @@
   --primary-medium: #004d6e;
   --primary-soft: #06719f;
   --primary-ultrasoft: #0387c0;
-  --secondary-medium: #FF7950;
+  --secondary-medium: #ff7950;
   --secondary-soft: #f3ffcf;
   --gray-medium: #b0bfd3;
   --gray-soft: #e5edf8;
@@ -132,9 +132,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Overpass';
+  overflow: hidden;
 }
 
-::placeholder{
+::placeholder {
   font-family: 'Overpass';
   font-style: normal;
   font-weight: 600;
@@ -145,45 +146,46 @@ body {
   padding: 20px 50px 23px 50px;
   width: 100%;
   min-height: 90vh;
-  background: #F4F7FB;
+  background: #f4f7fb;
 }
-.ant-input{
+.ant-input {
   font-family: 'Overpass';
   font-style: normal;
   font-weight: 600;
   font-size: 17px;
   line-height: 26px;
 }
-.ant-btn{
+.ant-btn {
   color: #fff;
 }
-.ant-radio-group{
+.ant-radio-group {
   font-family: 'Barlow';
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
   border-left: none;
 }
-.ant-radio-button-wrapper{
+.ant-radio-button-wrapper {
   justify-content: center;
   align-items: center;
   border: none;
   background: none;
 }
-.ant-radio-group-large .ant-radio-button-wrapper{
-  color : #BCC8E7;
+.ant-radio-group-large .ant-radio-button-wrapper {
+  color: #bcc8e7;
 }
-.ant-radio-button-wrapper:not(:first-child)::before{
-  display:none;
+.ant-radio-button-wrapper:not(:first-child)::before {
+  display: none;
 }
-.ant-radio-button-wrapper:first-child{
+.ant-radio-button-wrapper:first-child {
   border: none;
 }
-.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled){
-  background: linear-gradient(180deg, #FF8E6B -100%, #F75B2B 100%);
+.ant-radio-group-solid
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  background: linear-gradient(180deg, #ff8e6b -100%, #f75b2b 100%);
 }
 
 /* ANT CARD */
-.ant-card-body{
+.ant-card-body {
   padding: 0px;
 }

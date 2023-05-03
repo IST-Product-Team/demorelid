@@ -42,7 +42,10 @@ const TransferScreen = (props) => {
   const formik = useFormik({
     initialValues: initialValues.transfer,
     validationSchema: Yup.object({
-      amount: Yup.number().min(minLimit, `Minimum Limit is ${minLimit}`),
+      amount: Yup.number().min(
+        minLimit,
+        `Minimum Limit to use MFA notification is ${minLimit}`
+      ),
     }),
   });
 
@@ -95,6 +98,11 @@ const TransferScreen = (props) => {
   }, [counterStatus]);
 
   const handleTransfer = (value) => {
+    const formErrors = Object.values(formik.errors);
+    if (formErrors.length > 0) {
+      window.location.replace(pathname.receipt);
+      return;
+    }
     setLoading(true);
     requestApi
       .generateRVNTransfer(
@@ -200,10 +208,10 @@ const TransferScreen = (props) => {
                 handleTransfer();
                 // window.location.assign(pathname.receipt);
               }}
-              disabled={
-                formik.values.amount === '' ||
-                Object.values(formik.errors).length > 0
-              }
+              // disabled={
+              //   formik.values.amount === '' ||
+              //   Object.values(formik.errors).length > 0
+              // }
               size="large"
             >
               Submit

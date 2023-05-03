@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { withTranslation } from 'react-i18next';
 import { Col, Row, Button, Modal, Spin } from 'antd';
-
 import LoginBanner from '../../assets/images/LoginBanner.png';
 import EmailField from '../../components/InputField/EmailField';
 import requestApi from '../../services/index';
@@ -14,11 +10,8 @@ import { osName, browserName } from 'react-device-detect';
 import { geolocated } from 'react-geolocated';
 
 import './LoginScreen.css';
-import { useControlled } from '@material-ui/core';
 
 const LoginScreen = (props) => {
-  const [modal, contextHolder] = Modal.useModal();
-
   const [email, setEmail] = useState('');
   const [buttonDisable, setButtonDisable] = useState(true);
   const [errorEmail, setErrorEmail] = useState(false);
@@ -30,16 +23,6 @@ const LoginScreen = (props) => {
   const [deviceInfo, setDeviceInfo] = useState({});
 
   useEffect(() => {
-    // const urlFetch = fetch('alamaturl')
-    // urlFetch.then( res => {
-    //     if(res.status === 200)
-    //         return res.json()
-    // }).then( resJson => {
-    //     this.setState({
-    //         data: resJson
-    //     })
-    // })
-
     fetch('https://api.ipify.org/?format=json')
       .then((response) => {
         return response.json();
@@ -63,15 +46,6 @@ const LoginScreen = (props) => {
         });
       });
   }, []);
-
-  // useEffect(() => {
-  //     setDeviceInfo({
-  //         ip: localIpUrl('public', 'ipv4'),
-  //         osName: osName,
-  //         browserName: browserName,
-  //         status: 'Login'
-  //     })
-  // }, []);
 
   useEffect(() => {
     if (email !== '') {
@@ -98,7 +72,14 @@ const LoginScreen = (props) => {
   const handleEmailChange = (value) => {
     setEmail(value.target.value);
   };
-
+  const handleLoginPortal = () => {
+    if (email !== '') {
+      // Redirect to portal page
+      window.location.replace(pathname.portal);
+    } else {
+      alert('Please enter your email');
+    }
+  };
   const handleLogin = (value) => {
     setLoading(true);
     requestApi
@@ -199,6 +180,16 @@ const LoginScreen = (props) => {
               >
                 Sign In
               </Button>
+
+              <Button
+                className="dashboard-button"
+                onClick={() => {
+                  handleLoginPortal();
+                }}
+                disabled={buttonDisable}
+              >
+                Login to Portal MFA
+              </Button>
             </div>
           </div>
         </Col>
@@ -207,57 +198,7 @@ const LoginScreen = (props) => {
   ) : (
     <div>Getting the location data&hellip; </div>
   );
-
-  // return (
-  //     <Spin tip="Loading..." spinning={loading}>
-  //         <Row>
-  //             <Col span={12} style={{ height: "100vh" }}>
-  //                 <img src={LoginBanner} className="banner" alt="Banner Login" />
-  //             </Col>
-  //             <Col span={12} className="login-layout">
-  //                 <div>
-  //                     <div className="login-title">
-  //                         Log In
-  //                     </div>
-  //                     <div className="login-subtitle">
-  //                         Please login to your account to continue
-  //                 </div>
-  //                     <div style={{ marginTop: "15px" }}>
-  //                         <div className="input-title">
-  //                             Username
-  //                     </div>
-  //                         <br />
-  //                         <EmailField
-  //                             id={"email"}
-  //                             className="input-field"
-  //                             placeholder="Enter username"
-  //                             value={email}
-  //                             onChange={handleEmailChange}
-  //                             helperText={helperTextEmail !== null ? helperTextEmail : null}
-  //                             error={errorEmail}
-  //                         />
-
-  //                         <Button
-  //                             className="login-button"
-  //                             onClick={() => {
-  //                                 handleLogin();
-  //                                 // handleGetStatus();
-  //                             }}
-  //                             disabled={buttonDisable}
-  //                         >
-  //                             Sign In
-  //                         </Button>
-  //                     </div>
-  //                 </div>
-  //             </Col>
-  //         </Row>
-  //     </Spin>
-  // );
 };
-
-// function mapStateToProps() {
-//     return {};
-// }
 
 export default geolocated({
   positionOptions: {
@@ -265,7 +206,3 @@ export default geolocated({
   },
   userDecisionTimeout: 50000,
 })(LoginScreen);
-
-// export default withRouter(
-//     connect(mapStateToProps)(withTranslation('translations')(LoginScreen))
-// );

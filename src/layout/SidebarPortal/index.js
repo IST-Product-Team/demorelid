@@ -4,11 +4,11 @@ import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter as Router } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import SideBarMenu from './SideBarMenu';
+import SideBarMenu from './SidebarMenu';
 
 const { Sider } = Layout;
 
-const SideBar = () => {
+const SideBarPortal = () => {
   return (
     <I18nextProvider>
       <Sider
@@ -21,6 +21,7 @@ const SideBar = () => {
           backgroundColor: '#EA5121',
           overflowY: 'auto',
           zIndex: 1100,
+          marginRight: '25%',
         }}
       >
         <PerfectScrollbar
@@ -36,4 +37,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default SideBarPortal;
