@@ -13,7 +13,7 @@ const DashboardScreen = () => {
       <div style={{ width: '100%', textAlign: 'center' }}>
         <img src={background} style={{ width: '25%' }} alt="IST-Logo" />
       </div>
-      <div className="title">Welcome in IST Rel ID</div>
+      <div className="title">Welcome in IST REL-ID</div>
     </div>
   );
 };

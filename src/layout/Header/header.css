@@ -1,0 +1,19 @@
+@media (max-width: 768px) {
+  form {
+    flex-wrap: wrap;
+  }
+
+  input[type='text'] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button[type='submit'] {
+    flex-basis: 100%;
+    margin-bottom: 10px;
+  }
+
+  .fa-microphone {
+    margin-right: 10px;
+  }
+}

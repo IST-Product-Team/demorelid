@@ -22,6 +22,7 @@ import store from '../helpers/store/store';
 import PortalScreen from '../containers/PortalScreen';
 import SideBarPortal from './SidebarPortal';
 import CodeScreen from '../containers/codeActivationScreen';
+import CashWithdrawal from '../containers/CashWithdrawal';
 
 const Layouts = (props) => {
   const location = useLocation();
@@ -58,6 +59,11 @@ const Layouts = (props) => {
             <Route exact path={pathname.purchase} component={PurchaseScreen} />
             <Route exact path={pathname.payment} component={PaymentScreen} />
             <Route exact path={pathname.receipt} component={ReceiptScreen} />
+            <Route
+              exact
+              path={pathname.cashWithdrawal}
+              component={CashWithdrawal}
+            />
           </Layout>
         </Provider>
       </ThemeProvider>

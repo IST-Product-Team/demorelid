@@ -9,6 +9,7 @@ const pathnameCONFIG = {
   receipt: '/receipt',
   portal: '/portal',
   codeScreen: '/codeScreen',
+  cashWithdrawal: '/cashWithdrawal',
 };
 
 export default pathnameCONFIG;
