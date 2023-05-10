@@ -78,7 +78,7 @@ const SideBarMenu = (props) => {
             <span className={classes.title}>Transfer</span>
           </a>
         </Menu.Item>
-        <Menu.Item key="2">
+        {/* <Menu.Item key="2">
           <a
             style={{ cursor: 'pointer' }}
             href={path.purchase}
@@ -95,14 +95,30 @@ const SideBarMenu = (props) => {
           >
             <span className={classes.title}>Payment</span>
           </a>
-        </Menu.Item>
+        </Menu.Item>  */}
         <Menu.Item key="4">
           <a
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', marginTop: '5px' }}
             href={path.cashWithdrawal}
             onClick={() => window.location.assign(path.cashWithdrawal)}
           >
-            <span className={classes.title}>Cash Withdrawal</span>
+            <span
+              className={classes.title}
+              style={{
+                display: 'inline-block',
+                width: 'auto',
+                maxWidth: '30%',
+                height: 'auto',
+                wordBreak: 'break-word',
+                textAlign: 'justify',
+                marginTop: '9px',
+                fontSize: '15px' /* optional, adjust the font size as needed */,
+                lineHeight:
+                  '1' /* adjust the line height to increase the vertical spacing */,
+              }}
+            >
+              Cash Withdrawal <br /> Without ATM Card
+            </span>
           </a>
         </Menu.Item>
         <Menu.Item key="5">

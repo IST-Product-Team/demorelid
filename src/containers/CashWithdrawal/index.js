@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useFormik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import { Layout, Row, Col, Button, Modal, Spin } from 'antd';
 import * as Yup from 'yup';
 import { initialValues } from '../../helpers/Formik';
 import Container from '../../components/Container';
-
+import Form from '../../components/Forms';
 import pathname from '../../pathnameCONFIG';
 import requestApi from '../../services/index';
 import secureStorage from '../../helpers/SecureStorage';
 import localIpUrl from 'local-ip-url';
 import { osName, browserName } from 'react-device-detect';
 import { geolocated } from 'react-geolocated';
+
 const { Footer } = Layout;
 const CashWithdrawal = (props) => {
   const [minLimit, setMinLimit] = useState(100000); // initialize minLimit state with default value 100000
-
+  const Swal = require('sweetalert2');
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -49,16 +50,18 @@ const CashWithdrawal = (props) => {
     }),
   });
 
-  React.useEffect(() => {
-    console.log('formik', formik);
-  }, [formik]);
-
   const [counterStatus, setCounterStatus] = useState(false);
   const [notifUuid, setNotifUuid] = useState(null);
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(null);
   const [deviceInfo, setDeviceInfo] = useState({});
-
+  const amount = formik.values.amount;
+  const amountNumber = parseInt(amount);
+  const formattedAmount = amountNumber.toLocaleString('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+  });
   useEffect(() => {
     fetch('https://api.ipify.org/?format=json')
       .then((response) => {
@@ -70,7 +73,7 @@ const CashWithdrawal = (props) => {
           ip: res.ip,
           osName: osName,
           browserName: browserName,
-          status: 'Tranfer Notification',
+          status: 'Cash Withdrawal Without ATM CARD Notification',
         });
       })
       .catch((err) => {
@@ -97,6 +100,7 @@ const CashWithdrawal = (props) => {
     }
   }, [counterStatus]);
 
+  console.log('ini amount values', formattedAmount);
   const handleTransfer = (value) => {
     const formErrors = Object.values(formik.errors);
     if (formErrors.length > 0) {
@@ -105,10 +109,11 @@ const CashWithdrawal = (props) => {
     }
     setLoading(true);
     requestApi
-      .generateRVNTransfer(
+      .generateRVNCashWithdrawal(
         secureStorage.getItem('userId'),
         deviceInfo,
-        props.coords
+        props.coords,
+        formattedAmount
       )
       .then((res) => {
         console.log('nyoo cek response', res);
@@ -140,7 +145,17 @@ const CashWithdrawal = (props) => {
           res?.data?.status === 'UPDATED' &&
           res?.data?.action_response === 'Approve'
         ) {
-          window.location.replace(pathname.receipt);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your withdrawal has been success',
+            showConfirmButton: false,
+          });
+          setTimer(
+            setInterval(function () {
+              window.location.replace(pathname.dashboard);
+            }, 3000)
+          );
         } else if (
           res?.data?.status === 'UPDATED' &&
           res?.data?.action_response === 'Disapprove'
@@ -174,9 +189,9 @@ const CashWithdrawal = (props) => {
     <Spin tip="Loading..." spinning={loading}>
       <Container
         title="Cash Withdrawal"
-        subtitle="Cash Witdrawal Without Using ATM"
+        subtitle="Cash Witdrawal Without Using ATM Card"
       >
-        {/* <Form formCategory="transfer" {...formik} /> */}
+        <Form formCategory="cashWithdrawal" {...formik} />
       </Container>
       <Footer
         style={{
