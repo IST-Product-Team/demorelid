@@ -68,16 +68,22 @@ request.generateRVN = (requestData, deviceInfo, position) => {
   });
 };
 
-request.generateRVNTransfer = (requestData, deviceInfo, position) => {
+request.generateRVNTransfer = (
+  requestData,
+  deviceInfo,
+  position,
+  formattedAmount
+) => {
   console.log(position);
   console.log(requestData);
   const msg_Json = {
-    message: `Anda sedang mengakses internet bangking dengan browser: ${deviceInfo.browserName} di ${deviceInfo.osName} dengan ip: ${deviceInfo.ip} dan latitude ${position.latitude}, longitude ${position.longitude}`,
+    message: `You Have Request Transfer With Amount ${formattedAmount} and browser: ${deviceInfo.browserName} at ${deviceInfo.osName} with ip: ${deviceInfo.ip}and latitude ${position.latitude}, longitude ${position.longitude}`,
     ip: deviceInfo.ip,
     latitude: position.latitude,
     longitude: position.longitude,
     deviceBrowser: deviceInfo.browserName,
     deviceOs: deviceInfo.osName,
+    amount: formattedAmount,
   };
   return new Promise((resolve, reject) => {
     const headers = {

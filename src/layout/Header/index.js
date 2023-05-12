@@ -2,22 +2,19 @@ import React, { useState, useEffect } from 'react';
 import LogoIST from '../../assets/images/LogoIST.png';
 import { FaMicrophone } from 'react-icons/fa';
 import { Spin } from 'antd';
-import pathname from '../../pathnameCONFIG';
+
 import './header.css';
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
   const [searchVoice, setSearchVoice] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [response, setResponse] = useState('');
-  const [result, setResult] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showDropdownVoice, setShowDropdownVoice] = useState(false);
+  const [nominal, setNominal] = useState('');
+  const [intents, setIntents] = useState('');
+
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
-    setShowDropdown(false);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,7 +30,7 @@ const Header = () => {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/http://128.199.155.176:8002/search',
+      url: 'http://localhost:8080/http://103.171.164.44:8002/search',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -42,15 +39,31 @@ const Header = () => {
 
     try {
       const response = await axios.request(config);
+      const responseData = response.data.responseData[0].data?.results?.[0];
+      setNominal(responseData.deeplink.split('nominal=')[1]);
 
-      setResponse(response.data.responseData[0].data.results);
-      setShowDropdown(true);
+      setIntents(responseData.intents);
+      // setResponse(response.data.responseData[0].data.results);
+      // window.location.replace(pathname.transfer);
     } catch (error) {
       alert(error.message);
     }
     setIsLoading(false);
   };
-  console.log('ini response api ', response);
+
+  useEffect(() => {
+    if (nominal && intents != '') {
+      const nominalParam = encodeURIComponent(nominal);
+      const intentsParam = encodeURIComponent(intents);
+
+      const queryParams = `?nominal=${nominalParam}&intents=${intentsParam}`;
+      const transferUrl = `${window.location.origin}/transfer${queryParams}`;
+      window.location.replace(transferUrl);
+    }
+  }, [nominal, intents]);
+
+  console.log('ini response api ', intents, nominal);
+
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   const isSpeechRecognitionSupported = SpeechRecognition !== undefined;
@@ -143,7 +156,7 @@ const Header = () => {
         const config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: 'http://localhost:8080/http://128.199.155.176:8002/search',
+          url: 'http://localhost:8080/http://103.171.164.44:8002/search',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -154,7 +167,7 @@ const Header = () => {
           const response = await axios.request(config);
 
           setResult(response.data.responseData[0].data.results);
-          setShowDropdownVoice(true);
+
           setIsLoading(false);
         } catch (error) {
           console.log(error);
@@ -167,7 +180,7 @@ const Header = () => {
 
   console.log('ini search>>>>', searchTerm);
   console.log('ini search>>>>', searchVoice);
-  console.log('dropdown', showDropdown);
+
   return (
     <div
       style={{
@@ -196,51 +209,7 @@ const Header = () => {
           onChange={handleInputChange}
           style={{ marginRight: '10px', width: '50rem' }}
         />
-        {showDropdown && response && (
-          <select
-            style={{
-              position: 'absolute',
-              top: 'calc(100% + 0px)',
-              backgroundColor: '#fff',
-              zIndex: '2',
-              boxShadow: '0px 16px 20px rgba(188, 400, 231, 0.5)',
-              borderRadius: '5px',
-              width: '52%',
-            }}
-            value={selectedValue}
-            onChange={(e) => setSelectedValue(e.target.value)}
-            onClick={() => {
-              window.location.replace(
-                window.location.origin + pathname.transfer
-              );
-            }}
-          >
-            {response.map((item) => (
-              <option key={item.intentsid} value={item.deeplink}>
-                {item.intents}
-              </option>
-            ))}
-          </select>
-        )}
-        {showDropdownVoice && result && (
-          <select
-            style={{
-              position: 'absolute',
-              top: 'calc(100% + 0px)',
-              backgroundColor: '#fff',
-              zIndex: '2',
-              boxShadow: '0px 16px 20px rgba(188, 400, 231, 0.5)',
-              borderRadius: '5px',
-              width: '52%',
-            }}
-          >
-            {result.map((item) => (
-              <option key={item.intentsid} value={item.deeplink}>
-                {item.intents}
-              </option>
-            ))}
-          </select>
-        )}
+
         <button
           type="submit"
           style={{

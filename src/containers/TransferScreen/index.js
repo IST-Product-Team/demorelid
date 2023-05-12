@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
+import { useLocation } from 'react-router-dom';
 import { Layout, Row, Col, Button, Modal, Spin } from 'antd';
 import * as Yup from 'yup';
 import { initialValues } from '../../helpers/Formik';
@@ -14,6 +15,10 @@ import { geolocated } from 'react-geolocated';
 const { Footer } = Layout;
 const TransferScreen = (props) => {
   const [minLimit, setMinLimit] = useState(100000); // initialize minLimit state with default value 100000
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const nominal = searchParams.get('nominal');
+  const intent = searchParams.get('intents');
 
   useEffect(() => {
     const controller = new AbortController();
@@ -52,7 +57,7 @@ const TransferScreen = (props) => {
   React.useEffect(() => {
     console.log('formik', formik);
   }, [formik]);
-
+  console.log('formated amount');
   const [counterStatus, setCounterStatus] = useState(false);
   const [notifUuid, setNotifUuid] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -169,11 +174,13 @@ const TransferScreen = (props) => {
         console.log('nyoo cek error', err);
       });
   };
-
+  useEffect(() => {
+    // Set the nominal and intent as default values in the form
+  }, [nominal, intent]);
   return (
     <Spin tip="Loading..." spinning={loading}>
-      <Container title="Transfer" subtitle="Transfer to another Bank/Account">
-        <Form formCategory="transfer" {...formik} />
+      <Container title="Transfer" subtitle={`${intent}`}>
+        <Form formCategory="transfer" {...formik} nominal={nominal} />
       </Container>
       <Footer
         style={{
