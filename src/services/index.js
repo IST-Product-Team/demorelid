@@ -77,7 +77,7 @@ request.generateRVNTransfer = (
   console.log(position);
   console.log(requestData);
   const msg_Json = {
-    message: `You Have Request Transfer With Amount ${formattedAmount} and browser: ${deviceInfo.browserName} at ${deviceInfo.osName} with ip: ${deviceInfo.ip}and latitude ${position.latitude}, longitude ${position.longitude}`,
+    message: `You Have Request Transfer With Amount ${formattedAmount} on browser: ${deviceInfo.browserName} at ${deviceInfo.osName} with ip: ${deviceInfo.ip}and latitude ${position.latitude}, longitude ${position.longitude}`,
     ip: deviceInfo.ip,
     latitude: position.latitude,
     longitude: position.longitude,

@@ -19,7 +19,19 @@ const TransferScreen = (props) => {
   const searchParams = new URLSearchParams(location.search);
   const nominal = searchParams.get('nominal');
   const intent = searchParams.get('intents');
+  const [counterStatus, setCounterStatus] = useState(false);
+  const [notifUuid, setNotifUuid] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(null);
+  const [deviceInfo, setDeviceInfo] = useState({});
+  const amountNumber = parseInt(nominal);
+  const formattedAmount = amountNumber.toLocaleString('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+  });
 
+  console.log('formatted amount ', formattedAmount);
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -58,11 +70,6 @@ const TransferScreen = (props) => {
     console.log('formik', formik);
   }, [formik]);
   console.log('formated amount');
-  const [counterStatus, setCounterStatus] = useState(false);
-  const [notifUuid, setNotifUuid] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [timer, setTimer] = useState(null);
-  const [deviceInfo, setDeviceInfo] = useState({});
 
   useEffect(() => {
     fetch('https://api.ipify.org/?format=json')
@@ -113,7 +120,8 @@ const TransferScreen = (props) => {
       .generateRVNTransfer(
         secureStorage.getItem('userId'),
         deviceInfo,
-        props.coords
+        props.coords,
+        formattedAmount
       )
       .then((res) => {
         console.log('nyoo cek response', res);
