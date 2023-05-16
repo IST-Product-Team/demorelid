@@ -1,13 +1,14 @@
 const initialValues = {
-    transfer: {
-        amount: '',
-    },
-    purchase: {
-        amount: '',
-    },
-    payment: {
-        amount: '',
-    },
+  transfer: {
+    amount: '',
+    account: '',
+  },
+  purchase: {
+    amount: '',
+  },
+  payment: {
+    amount: '',
+  },
 };
 
 export default initialValues;

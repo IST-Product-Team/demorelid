@@ -64,7 +64,7 @@ const AmountFields = (props) => {
             <Col span={20}>
               <AmountCurrencyField
                 placeholder="Enter amount"
-                value={nominal || ''}
+                value={nominal || values.amount}
                 {...props}
               />
             </Col>

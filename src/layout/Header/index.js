@@ -165,12 +165,15 @@ const Header = () => {
 
         try {
           const response = await axios.request(config);
+          const responseData = response.data.responseData[0].data?.results?.[0];
+          setNominal(responseData.deeplink.split('nominal=')[1]);
 
-          setResult(response.data.responseData[0].data.results);
-
-          setIsLoading(false);
+          setIntents(responseData.intents);
+          // setResponse(response.data.responseData[0].data.results);
+          // window.location.replace(pathname.transfer);
         } catch (error) {
-          console.log(error);
+          alert(error.message);
+          setSearchVoice('');
         }
         setIsLoading(false);
       };
@@ -178,8 +181,8 @@ const Header = () => {
     }
   }, [searchVoice]);
 
-  console.log('ini search>>>>', searchTerm);
-  console.log('ini search>>>>', searchVoice);
+  console.log('ini search>>>> Text', searchTerm);
+  console.log('ini search>>>> Voice', searchVoice);
 
   return (
     <div
@@ -207,7 +210,7 @@ const Header = () => {
           type="text"
           value={searchTerm}
           onChange={handleInputChange}
-          style={{ marginRight: '10px', width: '50rem' }}
+          style={{ marginRight: '10px', width: '50rem', marginLeft: '-35px' }}
         />
 
         <button
@@ -252,7 +255,7 @@ const Header = () => {
           <div style={{ backgroundColor: '#fff', padding: '50px' }}>
             {isRecording ? (
               <div style={{ textAlign: 'center' }}>
-                <Spin>Recording...</Spin>
+                <Spin style={{ marginRight: '20px' }}>Recording...</Spin>
               </div>
             ) : (
               <div style={{ textAlign: 'center' }}>

@@ -1,13 +1,14 @@
 import React from 'react';
+import { useState } from 'react';
 import Proptypes from 'prop-types';
 import AmountFields from './AmountField';
 import TwoInputForm from './WithdrawalField';
 
-const Form = ({ formCategory, nominal, ...props }) => {
+const Form = ({ formCategory, ...props }) => {
   const forms = {
     transfer: [
       <div key={1}>
-        <AmountFields nominal={nominal} {...props} />
+        <TwoInputForm {...props} />
       </div>,
     ],
     cashWithdrawal: [

@@ -1,10 +1,13 @@
 import React from 'react';
 import { Row, Col, Input, Tag } from 'antd';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useFormikContext } from 'formik';
 import AmountCurrencyField from '../../InputField/AmountCurrencyField';
 const { TextArea } = Input;
 const TwoInputForm = (props) => {
-  const { errors, values } = props;
+  const { errors, values, handleChange } = props;
+
   return (
     <div>
       <Row style={{ marginBottom: '20px', marginLeft: '0px' }}>
@@ -36,7 +39,10 @@ const TwoInputForm = (props) => {
             <Col span={20}>
               <TextArea
                 placeholder="Enter account number"
+                name="account"
                 autoSize={{ minRows: 1, maxRows: 1 }}
+                value={values.account} // Set the value from Formik
+                onChange={handleChange}
                 {...props}
               />
             </Col>
