@@ -19,7 +19,7 @@ const TransferScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(null);
   const [deviceInfo, setDeviceInfo] = useState({});
-
+  const Swal = require('sweetalert2');
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -150,7 +150,17 @@ const TransferScreen = (props) => {
           res?.data?.status === 'UPDATED' &&
           res?.data?.action_response === 'Approve'
         ) {
-          window.location.replace(pathname.receipt);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your Transaction has been success',
+            showConfirmButton: false,
+          });
+          setTimer(
+            setInterval(function () {
+              window.location.replace(pathname.dashboard);
+            }, 3000)
+          );
         } else if (
           res?.data?.status === 'UPDATED' &&
           res?.data?.action_response === 'Disapprove'

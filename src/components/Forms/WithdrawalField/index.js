@@ -1,13 +1,25 @@
 import React from 'react';
 import { Row, Col, Input, Tag } from 'antd';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { useFormikContext } from 'formik';
 import AmountCurrencyField from '../../InputField/AmountCurrencyField';
 const { TextArea } = Input;
 const TwoInputForm = (props) => {
   const { errors, values, handleChange } = props;
-
+  const handleAmountChange = (event) => {
+    const newValue = event.target.value;
+    if (!values.amount.includes('&')) {
+      // Only update the amount if it doesn't contain '&'
+      handleChange(event);
+    } else {
+      handleChange({
+        ...event,
+        target: {
+          ...event.target,
+          value: newValue.split('&')[0], // Extract the value before '&'
+        },
+      });
+    }
+  };
   return (
     <div>
       <Row style={{ marginBottom: '20px', marginLeft: '0px' }}>
@@ -68,7 +80,15 @@ const TwoInputForm = (props) => {
               </span>
             </Col>
             <Col span={20}>
-              <AmountCurrencyField placeholder="Enter amount" {...props} />
+              <TextArea
+                placeholder="Enter Amount"
+                name="amount"
+                autoSize={{ minRows: 1, maxRows: 1 }}
+                value={values.amount}
+                onChange={handleAmountChange}
+                // Set the value from Formik
+                {...props}
+              />
             </Col>
           </Row>
         </Col>

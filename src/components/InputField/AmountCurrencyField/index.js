@@ -22,6 +22,7 @@ const AmountCurrencyField = (props) => {
     >
       <NumberFormat
         value={amount}
+        name="amount"
         thousandSeparator="."
         decimalSeparator=","
         className={className}

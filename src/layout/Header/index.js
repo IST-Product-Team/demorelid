@@ -12,6 +12,7 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const [nominal, setNominal] = useState('');
   const [intents, setIntents] = useState('');
+  const [rekening, setRekening] = useState('');
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -40,9 +41,36 @@ const Header = () => {
     try {
       const response = await axios.request(config);
       const responseData = response.data.responseData[0].data?.results?.[0];
-      setNominal(responseData.deeplink.split('nominal=')[1]);
 
-      setIntents(responseData.intents);
+      if (responseData.deeplink) {
+        const nominal = responseData.deeplink.split('nominal=')[1];
+        let intentsParam = '';
+        let nomerRekeningParam = '';
+
+        if (nominal) {
+          if (responseData.intents) {
+            intentsParam = encodeURIComponent(responseData.intents);
+          }
+
+          if (responseData.deeplink.includes('nomorrekening=')) {
+            nomerRekeningParam = responseData.deeplink
+              .split('nomorrekening=')[1]
+              .split('&')[0];
+          }
+
+          const nominalParam = encodeURIComponent(nominal);
+          const queryParams = `?nominal=${nominalParam}&intents=${intentsParam}&nomorrekening=${encodeURIComponent(
+            nomerRekeningParam
+          )}`;
+          const transferUrl = `${window.location.origin}/transfers${queryParams}`;
+          window.location.replace(transferUrl);
+        } else {
+          alert('Nominal is missing in the responseData.deeplink');
+        }
+      } else {
+        alert('responseData.deeplink is missing');
+      }
+
       // setResponse(response.data.responseData[0].data.results);
       // window.location.replace(pathname.transfer);
     } catch (error) {
@@ -50,17 +78,6 @@ const Header = () => {
     }
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    if (nominal && intents != '') {
-      const nominalParam = encodeURIComponent(nominal);
-      const intentsParam = encodeURIComponent(intents);
-
-      const queryParams = `?nominal=${nominalParam}&intents=${intentsParam}`;
-      const transferUrl = `${window.location.origin}/transfer${queryParams}`;
-      window.location.replace(transferUrl);
-    }
-  }, [nominal, intents]);
 
   console.log('ini response api ', intents, nominal);
 
@@ -166,9 +183,41 @@ const Header = () => {
         try {
           const response = await axios.request(config);
           const responseData = response.data.responseData[0].data?.results?.[0];
-          setNominal(responseData.deeplink.split('nominal=')[1]);
+          // setNominal(responseData.deeplink.split('nominal=')[1]);
+          // setRekening(responseData.deeplink.split('nomorrekening=')[1]);
 
-          setIntents(responseData.intents);
+          // setIntents(responseData.intents);
+
+          if (responseData.deeplink) {
+            const nominal = responseData.deeplink.split('nominal=')[1];
+            if (nominal) {
+              const nominalParam = encodeURIComponent(nominal);
+              let intentsParam = '';
+              let nomerRekeningParam = '';
+
+              if (responseData.deeplink.includes('intents=')) {
+                intentsParam = responseData.deeplink
+                  .split('intents=')[1]
+                  .split('&')[0];
+              }
+
+              if (responseData.deeplink.includes('nomorrekening=')) {
+                nomerRekeningParam = responseData.deeplink
+                  .split('nomorrekening=')[1]
+                  .split('&')[0];
+              }
+
+              const queryParams = `?nominal=${nominalParam}&intents=${encodeURIComponent(
+                intentsParam
+              )}&nomorrekening=${encodeURIComponent(nomerRekeningParam)}`;
+              const transferUrl = `${window.location.origin}/transfers${queryParams}`;
+              window.location.replace(transferUrl);
+            } else {
+              alert('Nominal is missing in the responseData.deeplink');
+            }
+          } else {
+            alert('responseData.deeplink is missing');
+          }
           // setResponse(response.data.responseData[0].data.results);
           // window.location.replace(pathname.transfer);
         } catch (error) {
@@ -205,7 +254,7 @@ const Header = () => {
         onSubmit={handleSubmit}
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        {isLoading && <Spin />}
+        {isLoading && <Spin style={{ marginRight: '50px' }} />}
         <input
           type="text"
           value={searchTerm}

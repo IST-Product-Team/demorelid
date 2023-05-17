@@ -8,12 +8,17 @@ const Form = ({ formCategory, ...props }) => {
   const forms = {
     transfer: [
       <div key={1}>
+        <AmountFields {...props} />
+      </div>,
+    ],
+    transfers: [
+      <div key={1}>
         <TwoInputForm {...props} />
       </div>,
     ],
     cashWithdrawal: [
       <div key={1}>
-        <TwoInputForm {...props} />
+        <AmountFields {...props} />
       </div>,
     ],
   };

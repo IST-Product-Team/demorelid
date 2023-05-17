@@ -3,6 +3,10 @@ const initialValues = {
     amount: '',
     account: '',
   },
+  transfers: {
+    account: '',
+    amount: '',
+  },
   purchase: {
     amount: '',
   },

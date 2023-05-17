@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { useLocation } from 'react-router-dom';
 import { Layout, Row, Col, Button, Modal, Spin } from 'antd';
 import * as Yup from 'yup';
 import { initialValues } from '../../helpers/Formik';
@@ -15,22 +14,13 @@ import { geolocated } from 'react-geolocated';
 const { Footer } = Layout;
 const TransferScreen2 = (props) => {
   const [minLimit, setMinLimit] = useState(100000); // initialize minLimit state with default value 100000
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const nominal = searchParams.get('nominal');
-  const intent = searchParams.get('intents');
   const [counterStatus, setCounterStatus] = useState(false);
   const [notifUuid, setNotifUuid] = useState(null);
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(null);
   const [deviceInfo, setDeviceInfo] = useState({});
-  const amountNumber = parseInt(nominal);
-  const formattedAmount = amountNumber.toLocaleString('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-    minimumFractionDigits: 0,
-  });
-
+  const [intenst, setIntenst] = useState('');
+  const Swal = require('sweetalert2');
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -56,7 +46,7 @@ const TransferScreen2 = (props) => {
   }, []);
 
   const formik = useFormik({
-    initialValues: initialValues.transfer,
+    initialValues: initialValues.transfers,
     validationSchema: Yup.object({
       amount: Yup.number().min(
         minLimit,
@@ -64,13 +54,19 @@ const TransferScreen2 = (props) => {
       ),
     }),
   });
+  const amount = formik.values.amount;
 
+  const amountNumber = parseInt(amount);
+  const formattedAmount = amountNumber.toLocaleString('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+  });
+
+  const account = formik.values.account;
+  console.log('account', account);
   console.log('formatted amount ', formattedAmount);
-  // React.useEffect(() => {
-  //   console.log('formik', formik);
-  // }, [formik]);
-  // console.log('formated amount');
-
+  // console.log('ini formik', formik);
   useEffect(() => {
     fetch('https://api.ipify.org/?format=json')
       .then((response) => {
@@ -109,55 +105,41 @@ const TransferScreen2 = (props) => {
     }
   }, [counterStatus]);
 
+  // Extracting URL parameters
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const nominalParam = urlParams.get('nominal');
+    const intentsParam = urlParams.get('intents');
+    const nomorParam = urlParams.get('nomorrekening');
+
+    // Handling special characters in nominalParam
+    const nominal = nominalParam ? nominalParam.split('&')[0] : '';
+
+    setIntenst(intentsParam);
+
+    // Set the initial values of account and amount using the URL parameters
+    formik.setValues({
+      ...formik.values,
+      account: nomorParam || '',
+      amount: nominal || '',
+    });
+  }, []);
+
   const handleTransfer = (value) => {
     const formErrors = Object.values(formik.errors);
     if (formErrors.length > 0) {
-      window.location.replace(pathname.receipt);
+      alert(formErrors);
       return;
     }
+
     setLoading(true);
     requestApi
       .generateRVNTransfer(
         secureStorage.getItem('userId'),
         deviceInfo,
         props.coords,
-        formattedAmount
-      )
-      .then((res) => {
-        console.log('nyoo cek response', res);
-        if (res.data.response_code !== 0) {
-          Modal.error({
-            title: res.error_msg,
-            onOk: () => window.location.replace(pathname.login),
-          });
-        } else {
-          setNotifUuid(res?.data?.notification_uuid);
-          setCounterStatus(true);
-        }
-      })
-      .catch((err) => {
-        console.log('nyoo cek error', err);
-        setLoading(false);
-        Modal.error({
-          title: err.data.error_msg,
-          onOk: () => window.location.replace(pathname.login),
-        });
-      });
-  };
-
-  const handleTransfer1 = (value) => {
-    const formErrors = Object.values(formik.errors);
-    if (formErrors.length > 0) {
-      window.location.replace(pathname.receipt);
-      return;
-    }
-    setLoading(true);
-    requestApi
-      .generateRVNTransfer1(
-        secureStorage.getItem('userId'),
-        deviceInfo,
-        props.coords,
-        formattedAmounts
+        formattedAmount,
+        account
       )
       .then((res) => {
         console.log('nyoo cek response', res);
@@ -189,7 +171,17 @@ const TransferScreen2 = (props) => {
           res?.data?.status === 'UPDATED' &&
           res?.data?.action_response === 'Approve'
         ) {
-          window.location.replace(pathname.receipt);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your Transaction has been success',
+            showConfirmButton: false,
+          });
+          setTimer(
+            setInterval(function () {
+              window.location.replace(pathname.dashboard);
+            }, 3000)
+          );
         } else if (
           res?.data?.status === 'UPDATED' &&
           res?.data?.action_response === 'Disapprove'
@@ -218,24 +210,14 @@ const TransferScreen2 = (props) => {
         console.log('nyoo cek error', err);
       });
   };
-  useEffect(() => {
-    // Set the nominal and intent as default values in the form
-  }, [nominal, intent]);
 
-  const handleClick = () => {
-    if (formattedAmount) {
-      handleTransfer();
-    } else {
-      handleTransfer1();
-    }
-  };
-
-  const subtitle = intent ? `${intent}` : 'Antar Bank';
+  console.log(intenst, amount, account);
+  const subtitle = intenst ? intenst : 'Antar Bank';
 
   return (
     <Spin tip="Loading..." spinning={loading}>
       <Container title="Transfer" subtitle={`${subtitle}`}>
-        <Form formCategory="transfer" {...formik} nominal={nominal} />
+        <Form formCategory="transfers" {...formik} values={formik.values} />
       </Container>
       <Footer
         style={{
@@ -267,7 +249,7 @@ const TransferScreen2 = (props) => {
                 width: 100,
               }}
               onClick={() => {
-                handleClick();
+                handleTransfer();
                 // window.location.assign(pathname.receipt);
               }}
               // disabled={

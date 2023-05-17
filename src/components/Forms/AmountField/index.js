@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import AmountCurrencyField from '../../InputField/AmountCurrencyField';
 const { TextArea } = Input;
 const AmountFields = (props) => {
-  const { errors, values, nominal } = props;
+  const { errors, values, handleChange } = props;
   return (
     <div>
       <Row style={{ marginBottom: '20px', marginLeft: '0px' }}>
@@ -36,7 +36,10 @@ const AmountFields = (props) => {
             <Col span={20}>
               <TextArea
                 placeholder="Enter account number"
+                name="account"
                 autoSize={{ minRows: 1, maxRows: 1 }}
+                value={values.account} // Set the value from Formik
+                onChange={handleChange}
                 {...props}
               />
             </Col>
@@ -62,11 +65,7 @@ const AmountFields = (props) => {
               </span>
             </Col>
             <Col span={20}>
-              <AmountCurrencyField
-                placeholder="Enter amount"
-                value={nominal || values.amount}
-                {...props}
-              />
+              <AmountCurrencyField placeholder="Enter amount" {...props} />
             </Col>
           </Row>
         </Col>

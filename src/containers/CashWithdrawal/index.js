@@ -104,7 +104,7 @@ const CashWithdrawal = (props) => {
   const handleTransfer = (value) => {
     const formErrors = Object.values(formik.errors);
     if (formErrors.length > 0) {
-      window.location.replace(pathname.receipt);
+      alert(formErrors);
       return;
     }
     setLoading(true);
