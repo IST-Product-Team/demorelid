@@ -62,11 +62,10 @@ const TransferScreen2 = (props) => {
     currency: 'IDR',
     minimumFractionDigits: 0,
   });
-
   const account = formik.values.account;
   console.log('account', account);
-  console.log('formatted amount ', formattedAmount);
-  // console.log('ini formik', formik);
+  console.log('amount ', formattedAmount);
+
   useEffect(() => {
     fetch('https://api.ipify.org/?format=json')
       .then((response) => {
@@ -116,8 +115,12 @@ const TransferScreen2 = (props) => {
     const nominal = nominalParam ? nominalParam.split('&')[0] : '';
 
     setIntenst(intentsParam);
-
-    // Set the initial values of account and amount using the URL parameters
+    if (nominal) {
+      const formattedNominal = parseInt(nominal).toLocaleString('id-ID', {
+        minimumFractionDigits: 0,
+      });
+      formik.setFieldValue('amount', formattedNominal);
+    }
     formik.setValues({
       ...formik.values,
       account: nomorParam || '',

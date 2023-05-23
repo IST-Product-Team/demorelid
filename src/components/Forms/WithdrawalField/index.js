@@ -2,20 +2,25 @@ import React from 'react';
 import { Row, Col, Input, Tag } from 'antd';
 import PropTypes from 'prop-types';
 import AmountCurrencyField from '../../InputField/AmountCurrencyField';
+import NumberFormat from 'react-number-format';
 const { TextArea } = Input;
 const TwoInputForm = (props) => {
   const { errors, values, handleChange } = props;
   const handleAmountChange = (event) => {
     const newValue = event.target.value;
     if (!values.amount.includes('&')) {
-      // Only update the amount if it doesn't contain '&'
       handleChange(event);
     } else {
       handleChange({
         ...event,
         target: {
           ...event.target,
-          value: newValue.split('&')[0], // Extract the value before '&'
+          value: parseInt(newValue, 10)
+            .toLocaleString('id-ID', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })
+            .replace(/,/g, '.'),
         },
       });
     }
@@ -80,15 +85,20 @@ const TwoInputForm = (props) => {
               </span>
             </Col>
             <Col span={20}>
-              <TextArea
+              <NumberFormat
                 placeholder="Enter Amount"
                 name="amount"
-                autoSize={{ minRows: 1, maxRows: 1 }}
                 value={values.amount}
-                onChange={handleAmountChange}
-                // Set the value from Formik
+                thousandSeparator="."
+                decimalSeparator=","
+                autoSize={{ minRows: 1, maxRows: 1 }}
+                allowNegative={false}
+                isNumericString={true}
+                customInput={TextArea}
+                onChange={handleChange}
                 {...props}
               />
+              {/* autoSize={{ minRows: 1, maxRows: 1 }} */}
             </Col>
           </Row>
         </Col>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LogoIST from '../../assets/images/LogoIST.png';
 import { FaMicrophone } from 'react-icons/fa';
 import { Spin } from 'antd';
-
+import pathname from '../../pathnameCONFIG';
 import './header.css';
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -10,9 +10,6 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [nominal, setNominal] = useState('');
-  const [intents, setIntents] = useState('');
-  const [rekening, setRekening] = useState('');
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -69,17 +66,22 @@ const Header = () => {
         }
       } else {
         alert('responseData.deeplink is missing');
+        window.location.replace(pathname.login);
       }
 
       // setResponse(response.data.responseData[0].data.results);
       // window.location.replace(pathname.transfer);
     } catch (error) {
-      alert(error.message);
+      const alertButton = window.confirm(error.message);
+
+      if (alertButton) {
+        // User clicked OK, navigate to the dashboard
+        const pathname = '/dashboard'; // Set your desired pathname
+        window.location.replace(pathname.login);
+      }
     }
     setIsLoading(false);
   };
-
-  console.log('ini response api ', intents, nominal);
 
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -183,22 +185,15 @@ const Header = () => {
         try {
           const response = await axios.request(config);
           const responseData = response.data.responseData[0].data?.results?.[0];
-          // setNominal(responseData.deeplink.split('nominal=')[1]);
-          // setRekening(responseData.deeplink.split('nomorrekening=')[1]);
-
-          // setIntents(responseData.intents);
 
           if (responseData.deeplink) {
             const nominal = responseData.deeplink.split('nominal=')[1];
-            if (nominal) {
-              const nominalParam = encodeURIComponent(nominal);
-              let intentsParam = '';
-              let nomerRekeningParam = '';
+            let intentsParam = '';
+            let nomerRekeningParam = '';
 
-              if (responseData.deeplink.includes('intents=')) {
-                intentsParam = responseData.deeplink
-                  .split('intents=')[1]
-                  .split('&')[0];
+            if (nominal) {
+              if (responseData.intents) {
+                intentsParam = encodeURIComponent(responseData.intents);
               }
 
               if (responseData.deeplink.includes('nomorrekening=')) {
@@ -207,22 +202,35 @@ const Header = () => {
                   .split('&')[0];
               }
 
-              const queryParams = `?nominal=${nominalParam}&intents=${encodeURIComponent(
-                intentsParam
-              )}&nomorrekening=${encodeURIComponent(nomerRekeningParam)}`;
+              const nominalParam = encodeURIComponent(nominal);
+              const queryParams = `?nominal=${nominalParam}&intents=${intentsParam}&nomorrekening=${encodeURIComponent(
+                nomerRekeningParam
+              )}`;
               const transferUrl = `${window.location.origin}/transfers${queryParams}`;
               window.location.replace(transferUrl);
             } else {
               alert('Nominal is missing in the responseData.deeplink');
+              window.addEventListener('click', () => {
+                const pathname = '/dashboard'; // Replace with your desired pathname
+                window.location.replace(pathname);
+              });
             }
           } else {
             alert('responseData.deeplink is missing');
+            alert('Nominal is missing in the responseData.deeplink');
+            window.addEventListener('click', () => {
+              // Replace with your desired pathname
+              window.location.replace(pathname.dashboard);
+            });
           }
           // setResponse(response.data.responseData[0].data.results);
           // window.location.replace(pathname.transfer);
         } catch (error) {
           alert(error.message);
-          setSearchVoice('');
+          window.addEventListener('click', () => {
+            // Replace with your desired pathname
+            window.location.replace(pathname.dashboard);
+          });
         }
         setIsLoading(false);
       };
